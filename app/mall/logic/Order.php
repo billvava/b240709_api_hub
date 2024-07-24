@@ -174,7 +174,7 @@ class Order {
 //
             $umodel -> saveYeji($order_info['user_id'],$order_info['total']);
             $umodel -> updateRank($order_info['user_id'],$referee_path,$order_info['total']);//更改用户等级
-
+            $umodel -> shengji($referee_path);
         }
 
 

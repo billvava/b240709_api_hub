@@ -610,6 +610,21 @@ class User extends Model {
         }
     }
 
+    public function shengji($referee_path){
+        $referee_path_array = [];
+        if($referee_path){
+            $referee_path_array = explode(',',$referee_path);
+        }
+        $map = [];
+        $map[] = ['id', 'in', $referee_path_array];
+        $order = 'id desc';
+        $field = 'id,referee_path';
+        $list = $this ->where($map)-> orderRaw($order) -> field($field) -> select();
+        foreach ($list as $key => $value){
+            $this -> updateRank($value['id'],$value['referee_path']);
+        }
+    }
+
     //更新级别
     public function updateRank($uid,$referee_path,$money){
         $user =  Db::name('user')->where('id',$uid)->find();
