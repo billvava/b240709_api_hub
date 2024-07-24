@@ -1,0 +1,54 @@
+<view class="grid">
+  <view class="myleast">
+    <image src="{{cdn}}chongzhi.jpg" class="chongzhi-bg"></image>
+    <view class="myleast-box">
+      <view class="myleast-title">我的余额</view>
+      <view class="myleast-bar">
+        <view class="myleast-left">
+          <view class="myleast-num">￥{{data.finance.money}}</view>
+          <view class="myleast-p">账户余额</view>
+        </view>
+        <navigator url="/pages/user/money/money" class="myleast-btn">
+          <view class="myleast-btn-p">收支明细</view>
+          <image src="{{cdn}}ra_06.png" class="ra"></image>
+        </navigator>
+      </view>
+    </view>
+  </view>
+
+  <view class="quick">
+    <view class="chongzhi-title">充值套餐</view>
+    <view class="quick-list">
+      
+      <view class="quick-item {{0==id ? 'on' :''}}" data-id="0"
+        data-money="" bindtap="change_cate">自定义</view>
+
+      <view wx:for="{{data.list}}" class="quick-item {{item.id==id ? 'on' :''}}" data-id="{{item.id}}"
+        data-money="{{item.money}}" bindtap="change_cate">{{item.txt}}</view>
+
+    </view>
+  </view>
+
+  <view class="chongzhi" wx:if="{{id==0}}">
+    <view class="chongzhi-title">充值金额</view>
+    <input type="digit" maxlength="7" bindinput="inputedit" placeholder="请输入充值金额" class="chongzhi-txt" value="{{money}}" />
+  </view>
+</view>
+
+<view class="pay-way">
+  <view class="pay-title">支付方式</view>
+  <view class="pay-item">
+    <image src="{{cdn}}wechat.png" class="wechat-icon"></image>
+    <view class="pay-p">微信支付</view>
+  </view>
+</view>
+
+<view class="pay-btn-wrap" style="padding-bottom: {{buBottom}}rpx">
+  <view class="pay-btn">
+    <view class="pay-btn1" bindtap="pay">立即支付 ￥{{money?money:0}}</view>
+  </view>
+</view>
+
+<view class="pay-margin" style="padding-bottom: {{buBottom}}rpx"></view>
+
+<!-- <nav /> -->

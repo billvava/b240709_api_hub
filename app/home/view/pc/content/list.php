@@ -1,0 +1,1 @@
+list{$cate.catid}

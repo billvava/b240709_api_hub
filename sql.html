@@ -1,0 +1,88 @@
+INSERT INTO `xf_system_group` (`id`, `group_name`, `group_info`, `group_key`, `fields`, `sort`, `create_time`) VALUES ('5', '商品保障', '', 'shangpbaozhang', '[{\"type\":\"input\",\"name\":\"名称\",\"field\":\"name\",\"param\":\"\",\"props\":\"\"},{\"type\":\"input\",\"name\":\"内容\",\"field\":\"content\",\"param\":\"\",\"props\":\"\"}]', '0', NULL);
+INSERT INTO `xf_system_group_data` (`id`, `group_id`, `value`, `sort`, `status`, `create_time`) VALUES (null, '5', '{\"name\":\"假一赔三\",\"content\":\"正品保障 假一赔三\"}', '10', '1', '2023-02-27 10:26:46');
+INSERT INTO `xf_system_group_data` (`id`, `group_id`, `value`, `sort`, `status`, `create_time`) VALUES (null, '5', '{\"name\":\"7天无理由\",\"content\":\"满足相应条件（吊牌缺失、洗涤后不支持）时，消费者可申请7天无理由退换货\"}', '10', '1', '2023-02-27 10:26:59');
+
+
+#chenyeyu
+
+ALTER TABLE `suoye`.`xf_suo_master`
+ADD COLUMN `jiedan_num` int NULL COMMENT '接单数量' ;
+
+ALTER TABLE `suoye`.`xf_suo_master`
+MODIFY COLUMN `jiedan_num` int(11) NULL DEFAULT 0 COMMENT '接单数量' ;
+
+
+ALTER TABLE `suoye`.`xf_suo_master`
+ADD COLUMN `star` decimal(2, 1) NULL DEFAULT 5 COMMENT '评分';
+
+ALTER TABLE `suoye`.`xf_suo_master`
+ADD COLUMN `key` varchar(500) NULL COMMENT '关键词' AFTER `star`;
+
+
+ALTER TABLE `xf_suo_order_comment`
+ADD COLUMN `master_id`  int(255) NULL COMMENT '师傅' ;
+
+
+#taoliwen
+ALTER TABLE `xf_mall_order`
+ADD COLUMN `master_id`  int(11) NULL AFTER `after_status`;
+
+ALTER TABLE `xf_mall_order_goods`
+DROP COLUMN `master_id`,
+ADD COLUMN `master_id`  int(11) NULL AFTER `user_id`;
+
+ALTER TABLE `xf_mall_order_refund`
+ADD COLUMN `master_id`  int(11) NULL AFTER `update_time`;
+
+ALTER TABLE `xf_mall_visit_log`
+ADD COLUMN `master_id`  int(11) NULL AFTER `goods_id`;
+
+ALTER TABLE `xf_pt_order`
+ADD COLUMN `master_id`  int(11) NULL AFTER `group_id`;
+
+ALTER TABLE `xf_mall_coupon`
+ADD COLUMN `master_id`  int(11) NULL AFTER `source`;
+
+ALTER TABLE `xf_mall_cart`
+ADD COLUMN `master_id`  int(11) NULL AFTER `data`;
+
+ALTER TABLE `xf_mall_after_sale`
+ADD COLUMN `master_id`  int(11) NULL AFTER `goods_info`;
+
+ALTER TABLE `xf_mall_goods_atn`
+ADD COLUMN `master_id`  int(11) NULL AFTER `goods_id`;
+
+ALTER TABLE `xf_mall_goods_comment`
+ADD COLUMN `master_id`  int(11) NULL AFTER `is_img`;
+
+ALTER TABLE `xf_mall_goods_history`
+ADD COLUMN `master_id`  int(11) NULL AFTER `type`;
+
+ALTER TABLE `xf_mall_cart`
+MODIFY COLUMN `user_id`  int(11) NULL COMMENT '用户编号' FIRST ,
+ADD COLUMN `id`  int UNSIGNED NOT NULL AUTO_INCREMENT AFTER `master_id`,
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`id`);
+
+
+ALTER TABLE `xf_suo_master`
+ADD COLUMN `delete_time`  datetime NULL AFTER `jiedan_num`;
+
+ALTER TABLE `xf_suo_order_comment`
+ADD COLUMN `reply_time`  datetime NULL DEFAULT NULL COMMENT '回复时间' AFTER `master_id`,
+ADD COLUMN `is_reply`  tinyint(4) NULL DEFAULT 0 COMMENT '回复状态|0=否,1=是' AFTER `reply_time`;
+
+ALTER TABLE `xf_suo_order`
+DROP COLUMN `finsh_remarks`,
+ADD COLUMN `finsh_remarks`  varchar(255) NULL DEFAULT NULL COMMENT '完成备注' AFTER `apply_install_status`;
+
+ALTER TABLE `xf_suo_order`
+ADD COLUMN `finsh_img`  text NULL COMMENT '完成图片' AFTER `finsh_remarks`;
+
+ALTER TABLE `xf_suo_order`
+ADD COLUMN `reject_remarks`  varchar(255) NULL DEFAULT NULL COMMENT '驳回原因' AFTER `finsh_img`;
+
+ALTER TABLE `xf_user_ext`
+ADD COLUMN `master_id`  int NULL DEFAULT NULL COMMENT '师傅id' AFTER `share_master_num`;
+
+1

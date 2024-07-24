@@ -1,0 +1,136 @@
+/*样式重置*/
+body{font-size:14px; font-family:"微软雅黑"; background-color: #f4f4f4;}
+.fr{ float:right;}
+.fl{ float:left;}
+.fn{ float:none;}
+.f2{ font-size:12px;}
+*{margin:0;padding:0;list-style-type:none;}
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+a,img{border:0;text-decoration: none;}
+ul,li{padding:0px; margin:0px; list-style:none;}
+form,select,textarea,input{ margin:0px;padding:0px; outline:medium; border:0; border-radius:0; background:none; font-family:"微软雅黑"; font-size:14px;   
+    -webkit-tap-highlight-color: rgba(0,0,0,0); }
+a{ margin:0px;padding:0px; outline:medium; border:0; border-radius:0; background:none; font-family:"微软雅黑";    appearance:none;
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari 和 Chrome */ -webkit-tap-highlight-color: rgba(0,0,0,0); -webkit-appearance: none;}
+i,em{ font-style:normal;}
+.mo{ margin: 0 auto;}
+.most{ width:100%; height:auto; overflow:hidden; display:block;}
+.roundBorder{border-radius: 15px;} 
+.clear{ clear:both; height:0; overflow:hidden;} 
+.imr{ width:100%; display:block; margin:auto; position:absolute; left:0; top:0; bottom:0; right:0;}
+.dsk{ width:100%; height:100%; display:block; overflow:hidden;}
+.clear{ clear:both; height:0; overflow:hidden;} 
+.lazy{ background: url(../images/loading.gif) 50% no-repeat;}
+ textarea{resize: none;}
+ .pageshow{  margin: 0 auto; height:40px; clear: both; margin-top: 10px;  }
+.pageshow .current{ background:#ff5152;color:#FFFFFF;height:40px; width: 50px;  padding: 5px 10px; margin-left: 5px;}
+.pageshow .btn-danger,.pageshow .num,.pageshow .prev,.pageshow .next,.pageshow .first,.pageshow .end{height:40px; width: 50px; background: #E2E2E2; color:#999999;  padding: 5px 10px; margin-left: 5px; }
+   img{width: 100%;
+    vertical-align: middle;}
+
+/*底部菜单*/
+.common_footer_margin {
+     width: 100%;
+     height: 55px;
+ }
+ .common_footer {
+     width: 100%;
+     height: 55px;
+     background-color: #fff;
+     border-top: 1px #ececec solid;
+     overflow: hidden;
+     position: fixed;
+     bottom: 0;
+     left: 0;
+     z-index: 2;
+     display: box;
+     display: -moz-box;
+     display: -o-box;
+     display: -webkit-box;
+ }
+ .common_footer a.active {
+     color: #d80c18;
+ }
+ .common_footer a {
+     display: block;
+     -moz-box-flex: 1;
+     -webkit-box-flex: 1;
+     box-flex: 1;
+     height: 100%;
+     box-sizing: border-box;
+     text-align: center;
+     color: #313131;
+ }
+ .common_footer i {
+     display: block;
+     width: 100%;
+     height: 30px;
+     line-height: 30px;
+     font-size: 25px;
+ }
+ .common_footer span {
+     font-size: 14px;
+ }
+
+
+/*清除浮动*/
+.clearfix:after {
+visibility: hidden;
+display: block;
+font-size: 0;
+content: " ";
+clear: both;
+height: 0;
+}
+.clearfix{*zoom:1;}
+
+/*头部*/
+.search-inside { width: 100%; height: 3rem; padding: 0.5rem 0 0.5rem 3rem; position: relative; background-color: #fff; border-bottom: 1px #dbdbdb solid;}
+.search-back { display: block; width: 3rem; height: 3rem; position: absolute; top: 0; left: 0; z-index: 9; line-height: 3rem; text-align: center; color: #2e2e2e;}
+.search-back i { font-size: 1.2rem;}
+.search-inside-box { width: 100%; height: 2rem; padding: 0 3rem 0 0; position: relative;}
+.search-inside-box .msg{    text-align: center;
+    font-size: 16px;
+    line-height: 2rem;
+    width: 100%;
+    display: block;}
+
+/*显示为空*/
+.cart-empty {
+    padding: 10% 0 0;
+    text-align: center;
+}
+.cart-empty p {
+    margin: 0 0 10px;
+    font-size: 16px;
+    color: #ccc;
+}
+
+.cart-empty a {
+    display: block;
+    width: 100px;
+    height: 40px;
+    margin: 0 auto;
+    border-radius: 6px;
+    text-align: center;
+    line-height: 36px;
+    font-size: 14px;
+    border: 2px #d80c18 solid;
+    color: #d80c18;
+}
+ .cart-empty i {
+    display: block;
+    margin: 0 0 15px;
+    font-size: 80px;
+    color: #ccc;
+}
+
+.orange-line { 
+  background: -webkit-linear-gradient(left, #ecb92c , #ef9037);
+  background: -o-linear-gradient(right, #ecb92c, #ef9037);
+  background: -moz-linear-gradient(right, #ecb92c, #ef9037);
+  background: linear-gradient(to right, #ecb92c , #ef9037);
+}
