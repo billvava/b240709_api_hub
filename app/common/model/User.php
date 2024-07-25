@@ -790,7 +790,7 @@ class User extends Model {
 
     public function kaijiang(){
 
-        $winning_numbers = rand(1,8);
+        $winning_numbers = rand(1,12);
 
         $data['strat_time'] = time();
         $data['end_time'] = time() + 5 * 60;
@@ -820,6 +820,7 @@ class User extends Model {
             Db::name('activity_jingcai') -> where('id',$value['id']) -> update($update_data);
 
         }
+        Db::name('activity') -> where('id',$activity_data['id']) -> update(['status' => 1]);
         return;
     }
 
