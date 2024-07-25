@@ -820,8 +820,11 @@ class User extends Model {
             Db::name('activity_jingcai') -> where('id',$value['id']) -> update($update_data);
 
         }
-        Db::name('activity') -> where('id',$activity_data['id']) -> update(['status' => 1]);
-        return;
+        if($activity_data['end_time'] < time()){
+            Db::name('activity') -> where('id',$activity_data['id']) -> update(['status' => 1]);
+            return;
+        }
+
     }
 
 
