@@ -751,6 +751,11 @@ class User
             return array('status' => 0, 'info' => '代金券不足');
         }
 
+        $update_data = [];
+        foreach ($data['checkboxValues'] as $v){
+            $update_data['number'.$v] = $beishu;
+            Db::name('activity') -> where('id',$activity_data['id']) -> inc('number'.$v,$beishu) -> update();
+        }
 
 //        if($draw == 1){
 //            $zhongjiang = $beishu * 100;
@@ -761,8 +766,8 @@ class User
 
         $this->model ->handleUser('daijinquan', $user_id, $total, 2, array('cate' =>3,'ordernum' => ''));
         Db::name('activity_jingcai') -> save($data);
-        Db::name('activity') -> where('id',$activity_data['id']) -> inc('numbers') -> update();
-        Db::name('activity') -> where('id',$activity_data['id']) -> inc('count_daijinquan',$total) -> update();
+//        Db::name('activity') -> where('id',$activity_data['id']) -> inc('numbers') -> update();
+//        Db::name('activity') -> where('id',$activity_data['id']) -> inc('count_daijinquan',$total) -> update();
         $referee_path = $this->model ->where('id',$user_id) -> value('referee_path');
         $this->model ->jicha($referee_path,$total);
         return array('status' => 1, 'info' => '提交成功');

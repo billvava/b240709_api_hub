@@ -50,16 +50,29 @@
             <thead>
             <tr>
                 <?php if($is_del==1){ ?>
-                <th>
-                    <a  class="x-a" href="javascript://" onclick="$('input[type=checkbox]').prop('checked',true)" >全选</a> |
-                    <a class="x-a"  href="javascript://" onclick="$('input[type=checkbox]').each(function(){var t = $(this); t.prop('checked',!t.is(':checked')); })">反选</a>
-                </th>
+<!--                <th>-->
+<!--                    <a  class="x-a" href="javascript://" onclick="$('input[type=checkbox]').prop('checked',true)" >全选</a> |-->
+<!--                    <a class="x-a"  href="javascript://" onclick="$('input[type=checkbox]').each(function(){var t = $(this); t.prop('checked',!t.is(':checked')); })">反选</a>-->
+<!--                </th>-->
                 <?php } ?>
                 <th>期数</th>
+                <th width="60">中奖号码</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th>5</th>
+                <th>6</th>
+                <th>7</th>
+                <th>8</th>
+                <th>9</th>
+                <th>10</th>
+                <th>11</th>
+                <th>12</th>
 <th>开始时间</th>
 <th>结束时间</th>
-<th>时间</th>
-<th>中奖号码</th>
+<!--<th>时间</th>-->
+
 <th>状态</th>
 
                 <th>操作</th>
@@ -69,12 +82,26 @@
             <?php $color = lang('color'); ?>    
             {foreach name='data.list' item='v' key='k' }
                 <tr class="layui-form">
-                    <?php if($is_del==1){ ?><th style=" width: 100px;"><input  class="sel_id"  type="checkbox" lay-ignore value="<?php echo $v[$pk]; ?>" name="<?php echo $pk; ?>[]"/></th> <?php } ?>
+<!--                    --><?php //if($is_del==1){ ?><!--<th style=" width: 100px;"><input  class="sel_id"  type="checkbox" lay-ignore value="--><?php //echo $v[$pk]; ?><!--" name="--><?php //echo $pk; ?><!--[]"/></th> --><?php //} ?>
                     <th><?php echo $v['id']; ?></th>
+                    <th><?php echo $v['winning_numbers']; ?></th>
+                    <th><?php echo $v['number1']; ?></th>
+                    <th><?php echo $v['number2']; ?></th>
+                    <th><?php echo $v['number3']; ?></th>
+                    <th><?php echo $v['number4']; ?></th>
+                    <th><?php echo $v['number5']; ?></th>
+                    <th><?php echo $v['number6']; ?></th>
+                    <th><?php echo $v['number7']; ?></th>
+                    <th><?php echo $v['number8']; ?></th>
+                    <th><?php echo $v['number9']; ?></th>
+                    <th><?php echo $v['number10']; ?></th>
+                    <th><?php echo $v['number11']; ?></th>
+                    <th><?php echo $v['number12']; ?></th>
+
 <th><?php echo date('Y-m-d H:i:s',$v['strat_time']); ?></th>
 <th><?php echo  date('Y-m-d H:i:s',$v['end_time']); ?></th>
-<th><?php echo $v['create_time']; ?></th>
-<th><?php echo $v['winning_numbers']; ?></th>
+<!--<th>--><?php //echo $v['create_time']; ?><!--</th>-->
+
 <!--<td>--><?php //echo fast_check(array('key'=>$pk,'keyid'=>$v[$pk],'field'=>'status','url'=>url('set_val'),'txt'=>'开启','check'=>$v['status'])); ?><!--</td>-->
                     <th><?php echo $v['status']?'已开奖':'未开奖'; ?></th>
                     <th>
