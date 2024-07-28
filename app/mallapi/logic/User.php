@@ -139,11 +139,11 @@ class User
                 'url' =>'/pages/user/hecheng/hecheng',
                 'icon' => "user-center/icon-nav-4.png",
             ],
-            [
-                'name' => '砸金蛋明细',
-                'url' =>'/pages/smash-egg/log',
-                'icon' => "user-center/icon-nav-4.png",
-            ],
+//            [
+//                'name' => '砸金蛋明细',
+//                'url' =>'/pages/smash-egg/log',
+//                'icon' => "user-center/icon-nav-4.png",
+//            ],
             [
                 'name' => '我的粉丝',
                 'url' => '/pages/user/team/myTeam',

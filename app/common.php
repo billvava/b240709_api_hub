@@ -742,7 +742,7 @@ function create_qrcode($url,$uid){
 }
 
 function get_user_level(){
-    $array = ['临时会员','普通会员','V1','V2','V3','V4','V5','V6','V7'];
+    $array = ['临时会员','普通会员','一星','二星','三星','四星','五星','六星','七星'];
     return $array;
 }
 
