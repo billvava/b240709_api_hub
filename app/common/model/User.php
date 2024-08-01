@@ -791,9 +791,17 @@ class User extends Model {
     public function kaijiang(){
 
         $winning_numbers = rand(1,12);
+        $num = 12*24;
+        $day_start_time = strtotime("today");
 
-        $data['strat_time'] = time();
-        $data['end_time'] = time() + 5 * 60;
+        for ($i=1;$i<= $num;$i++){
+            $strat_time = $day_start_time + $i*300;
+            $end_time = $day_start_time +($i+1) * 300;
+            if($strat_time <= time() && time() < $end_time){
+                $data['strat_time'] = $strat_time;
+                $data['end_time'] = $end_time;
+            }
+        }
         $data['create_time'] = date('Y-m-d H:i:s');
         $data['winning_numbers'] = $winning_numbers;
         $activity_data = Db::name('activity') -> order('id desc') -> find();
