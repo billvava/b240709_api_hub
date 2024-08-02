@@ -626,7 +626,7 @@ class User extends Model {
     }
 
     //更新级别
-    public function updateRank($uid,$referee_path,$money){
+    public function updateRank($uid,$referee_path){
         $user =  Db::name('user')->where('id',$uid)->find();
 
         $shengji1 = C('shengji1');
