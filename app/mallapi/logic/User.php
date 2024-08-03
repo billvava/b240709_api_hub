@@ -720,9 +720,9 @@ class User
         $map = [];
         $map[] = ['activity_id','=',$activity_data['id']];
         $map[] = ['user_id','=',$user_id];
-//        if(Db::name('activity_jingcai') -> where($map) -> count()){
-//            return array('status' => 0, 'info' => '请勿重复参与');
-//        }
+        if(Db::name('activity_jingcai') -> where($map) -> count()){
+            return array('status' => 0, 'info' => '请勿重复参与');
+        }
         $data['winning_numbers'] = $activity_data['winning_numbers'];
         $data['activity_id'] = $activity_data['id'];
         $data['end_time'] = $activity_data['end_time'];
