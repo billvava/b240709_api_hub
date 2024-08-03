@@ -790,48 +790,61 @@ class User extends Model {
 
     public function kaijiang(){
 
-        $winning_numbers = rand(1,12);
-        $num = 12*24;
-        $day_start_time = strtotime("today");
+        $file = 'example.txt'; // 要锁定的文件
+        $lock = fopen($file, 'w+'); // 创建一个可写的文件句柄
 
-        for ($i=1;$i<= $num;$i++){
-            $strat_time = $day_start_time + $i*300;
-            $end_time = $day_start_time +($i+1) * 300;
-            if($strat_time <= time() && time() < $end_time){
-                $data['strat_time'] = $strat_time;
-                $data['end_time'] = $end_time;
+        if (flock($lock, LOCK_EX)) { // 获取独占锁
+            $winning_numbers = rand(1,12);
+            $num = 12*24;
+            $day_start_time = strtotime("today");
+
+            for ($i=1;$i<= $num;$i++){
+                $strat_time = $day_start_time + $i*300;
+                $end_time = $day_start_time +($i+1) * 300;
+                if($strat_time <= time() && time() < $end_time){
+                    $data['strat_time'] = $strat_time;
+                    $data['end_time'] = $end_time;
+                }
             }
-        }
-        $data['create_time'] = date('Y-m-d H:i:s');
-        $data['winning_numbers'] = $winning_numbers;
-        $activity_data = Db::name('activity') -> order('id desc') -> find();
-        if(!$activity_data || $activity_data['end_time'] < time()){
-            Db::name('activity') -> save($data);
-        }
-
-        $map = [];
-        $map [] = ['end_time','<=',time()];
-        $map [] = ['status','=',0];
-
-        $list = Db::name('activity_jingcai') -> where($map) -> select();
-        foreach ($list as $key => $value){
-            $num_json_array = json_decode($value['num_json'],true);
-            $bonus = 0;
-            $winning_numbers = $value['winning_numbers'];
-            if(in_array($winning_numbers,$num_json_array)){
-                $bonus = $value['beishu'] * 100;
-                $this->handleUser('daijinquan', $value['user_id'], $bonus, 1, array('cate' => 4,'ordernum' => ''));
+            $data['create_time'] = date('Y-m-d H:i:s');
+            $data['winning_numbers'] = $winning_numbers;
+            $activity_data = Db::name('activity') -> order('id desc') -> find();
+            if(!$activity_data || $activity_data['end_time'] < time()){
+                Db::name('activity') -> save($data);
             }
-            $update_data = [];
-            $update_data['status'] = 1;
-            $update_data['bonus'] = $bonus;
-            Db::name('activity_jingcai') -> where('id',$value['id']) -> update($update_data);
 
+            $map = [];
+            $map [] = ['end_time','<=',time()];
+            $map [] = ['status','=',0];
+
+            $list = Db::name('activity_jingcai') -> where($map) -> select();
+            foreach ($list as $key => $value){
+                $num_json_array = json_decode($value['num_json'],true);
+                $bonus = 0;
+                $winning_numbers = $value['winning_numbers'];
+                if(in_array($winning_numbers,$num_json_array)){
+                    $bonus = $value['beishu'] * 100;
+                    $this->handleUser('daijinquan', $value['user_id'], $bonus, 1, array('cate' => 4,'ordernum' => ''));
+                }
+                $update_data = [];
+                $update_data['status'] = 1;
+                $update_data['bonus'] = $bonus;
+                Db::name('activity_jingcai') -> where('id',$value['id']) -> update($update_data);
+
+            }
+            if($activity_data['end_time'] < time()){
+                Db::name('activity') -> where('id',$activity_data['id']) -> update(['status' => 1]);
+                return;
+            }
+
+            flock($lock, LOCK_UN); // 释放锁
+        } else {
+            echo "无法获取文件锁";
         }
-        if($activity_data['end_time'] < time()){
-            Db::name('activity') -> where('id',$activity_data['id']) -> update(['status' => 1]);
-            return;
-        }
+
+        fclose($lock); // 关闭文件句柄
+
+
 
     }
 
