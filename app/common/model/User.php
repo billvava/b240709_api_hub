@@ -798,7 +798,7 @@ class User extends Model {
             $num = 12*24;
             $day_start_time = strtotime("today");
 
-            for ($i=1;$i<= $num;$i++){
+            for ($i=0;$i< $num;$i++){
                 $strat_time = $day_start_time + $i*300;
                 $end_time = $day_start_time +($i+1) * 300;
                 if($strat_time <= time() && time() < $end_time){
