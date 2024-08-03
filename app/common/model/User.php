@@ -810,7 +810,10 @@ class User extends Model {
             $data['winning_numbers'] = $winning_numbers;
             $activity_data = Db::name('activity') -> order('id desc') -> find();
             if(!$activity_data || $activity_data['end_time'] < time()){
-                Db::name('activity') -> save($data);
+                if(iseet($data['strat_time']) && $data['strat_time'] ){
+                    Db::name('activity') -> save($data);
+                }
+
             }
 
             $map = [];
