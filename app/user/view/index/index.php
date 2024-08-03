@@ -205,6 +205,20 @@
           <li>
             <a  onclick="log_handle('<?php echo $v['id']; ?>','扣除余额','money',2)"  href="javascript://">扣除余额</a>
           </li>
+
+            <li>
+                <a  onclick="log_handle('<?php echo $v['id']; ?>','充值绿色积分','lvse_dot',1)"   href="javascript://">充值绿色积分</a>
+            </li>
+            <li>
+                <a  onclick="log_handle('<?php echo $v['id']; ?>','扣除绿色积分','lvse_dot',2)"  href="javascript://">扣除绿色积分</a>
+            </li>
+
+            <li>
+                <a  onclick="log_handle('<?php echo $v['id']; ?>','充值代金券','daijinquan',1)"   href="javascript://">充值代金券</a>
+            </li>
+            <li>
+                <a  onclick="log_handle('<?php echo $v['id']; ?>','扣除代金券','daijinquan',2)"  href="javascript://">扣除代金券</a>
+            </li>
           
           
          <!-- <li>

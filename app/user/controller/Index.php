@@ -229,7 +229,13 @@ class Index extends Common {
             $this->error('请大于0');
         }
 
-        $res = $this->model->handleUser($this->in['table'], $this->in['user_id'], $this->in['total'], $this->in['type'], array('cate' => 1, 'admin_id' => $this->adminInfo['id'], 'msg' => $this->in['msg']));
+        if($this->in['total'] == 'money'){
+            $cate =1;
+        }else{
+            $cate =9;
+        }
+
+        $res = $this->model->handleUser($this->in['table'], $this->in['user_id'], $this->in['total'], $this->in['type'], array('cate' => $cate, 'admin_id' => $this->adminInfo['id'], 'msg' => $this->in['msg']));
         if ($res) {
             $this->success(lang('s'));
         } else {

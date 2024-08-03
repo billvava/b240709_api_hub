@@ -758,7 +758,7 @@ class User extends Model {
 //       if($is_pay){
            if($total_dot > 0 && $user_lvse_dot > 0){
 
-               $this->handleUser('lvse_dot', $uid, $total_dot, 1, array('cate' => 1,'ordernum' => ''));
+               $this->handleUser('lvse_dot', $uid, $total_dot, 1, array('cate' => 8,'ordernum' => ''));
 
                $this->handleUser('lvse_dot', $pid, $user_lvse_dot, 1, array('cate' => 1,'ordernum' => ''));
                $this->handleUser('daijinquan', $uid, $daijinquan_num, 1, array('cate' => 1,'ordernum' => ''));

@@ -521,6 +521,8 @@ class User
         $data['jiantui_total_money'] = $jiantui_total_money;
         $data['zhutui_total_money'] = $zhutui_total_money;
         $data['jiantui_num'] = count($jiantui_ids);
+        $data['total_num'] = $data['num'] + $data['jiantui_num'];
+        $data['total_money'] = $jiantui_total_money + $zhutui_total_money;
 
         return ['status' => 1, 'data' => $data];
     }
