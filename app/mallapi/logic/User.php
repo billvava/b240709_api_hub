@@ -130,7 +130,7 @@ class User
                 'icon' => "user-center/icon-nav-1.png",
             ],
             [
-                'name' => '提现',
+                'name' => '进货商城专区',
                 'url' =>'/pages/user/cashout/cashout',
                 'icon' => "user-center/icon-nav-4.png",
             ],
