@@ -43,6 +43,10 @@ class ComposerStaticInit9b2eb0ac057f7e2850231080acc9d93f
             'Yurun\\Util\\' => 11,
             'Yurun\\PaySDK\\' => 13,
         ),
+        'W' => 
+        array (
+            'Workerman\\' => 10,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Php80\\' => 23,
@@ -133,6 +137,10 @@ class ComposerStaticInit9b2eb0ac057f7e2850231080acc9d93f
         'Yurun\\PaySDK\\' => 
         array (
             0 => __DIR__ . '/..' . '/yurunsoft/pay-sdk/src',
+        ),
+        'Workerman\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/workerman/workerman',
         ),
         'Symfony\\Polyfill\\Php80\\' => 
         array (

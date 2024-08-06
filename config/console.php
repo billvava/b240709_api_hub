@@ -6,5 +6,8 @@ return [
     // 指令定义
     'commands' => [
          'oss' => 'app\command\Oss',
+        // '定时器名称' => '文件路径'
+        'timer'=>\app\command\Timer::class
     ],
+
 ];
