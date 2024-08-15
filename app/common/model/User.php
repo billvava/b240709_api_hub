@@ -792,9 +792,9 @@ class User extends Model {
 
         $file = 'example.txt'; // 要锁定的文件
         $lock = fopen($file, 'w+'); // 创建一个可写的文件句柄
-
+        $array = ['橘子','橙子','桃子','柚子','雪梨','苹果','香蕉','菠萝','芒果','西瓜','葡萄','草莓'];
         if (flock($lock, LOCK_EX)) { // 获取独占锁
-            $winning_numbers = rand(1,12);
+            $winning_numbers = rand(0,11);
             $num = 12*24;
             $day_start_time = strtotime("today");
 
@@ -807,7 +807,7 @@ class User extends Model {
                 }
             }
             $data['create_time'] = date('Y-m-d H:i:s');
-            $data['winning_numbers'] = $winning_numbers;
+            $data['winning_numbers'] = $array[$winning_numbers];
             $activity_data = Db::name('activity') -> order('id desc') -> find();
             if(!$activity_data || $activity_data['end_time'] < time()){
                 if(isset($data['strat_time']) && $data['strat_time'] ){
@@ -825,6 +825,7 @@ class User extends Model {
                 $num_json_array = json_decode($value['num_json'],true);
                 $bonus = 0;
                 $winning_numbers = $value['winning_numbers'];
+                Db::name('activity_match') -> where('name',$winning_numbers) -> inc('num');
                 if(in_array($winning_numbers,$num_json_array)){
                     $bonus = $value['beishu'] * 100;
                     $this->handleUser('daijinquan', $value['user_id'], $bonus, 1, array('cate' => 4,'ordernum' => ''));

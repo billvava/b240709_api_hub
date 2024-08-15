@@ -110,6 +110,11 @@ class User
 
         $this->data['navigates'] = [
             [
+                'name' => '活动区',
+                'url' => '/pages/smash-egg/index',
+                'icon' => "user-center/icon-nav-1.png",
+            ],
+            [
                 'name' => '我的钱包',
                 'url' => '/pages/user/log/log?flag=money',
                 'icon' => "user-center/icon-nav-1.png",
@@ -130,7 +135,7 @@ class User
                 'icon' => "user-center/icon-nav-1.png",
             ],
             [
-                'name' => '进货商城专区',
+                'name' => '进货商城产品上架',
                 'url' =>'/pages/user/cashout/cashout',
                 'icon' => "user-center/icon-nav-4.png",
             ],
@@ -475,8 +480,10 @@ class User
         $data['tel'] = $tel;
         $data['create_time'] = date('Y-m-d H:i:s');
         if ($this->in['flag'] == 'get') {
-            $thumb = Db::name('help_item') -> where('token','shoukuanma') -> value('thumb');
-            $this->uinfo['thumb'] = $thumb;
+            $this->model = new \app\com\model\HelpItem();
+            $shoukuanma = $this->data['info'] = $this->model->getInfo('shoukuanma');
+//            $thumb = Db::name('help_item') -> where('token','shoukuanma') -> value('thumb');
+            $this->uinfo['shoukuanma'] = $shoukuanma;
             return ['status' => 1, 'data' => $this->uinfo];
         }
         if ($this->in['flag'] == 'sub') {
@@ -714,15 +721,19 @@ class User
         if(!$activity_data){
             return array('status' => 0, 'info' => '非法操作');
         }
+
+        if($activity_data['end_time'] <= time() + 30){
+            return array('status' => 0, 'info' => '最后30秒禁止参与砸金蛋活动');
+        }
         if($activity_data['end_time'] < time()){
             return array('status' => 0, 'info' => '本期砸金蛋已结束');
         }
         $map = [];
         $map[] = ['activity_id','=',$activity_data['id']];
         $map[] = ['user_id','=',$user_id];
-        if(Db::name('activity_jingcai') -> where($map) -> count()){
-            return array('status' => 0, 'info' => '请勿重复参与');
-        }
+//        if(Db::name('activity_jingcai') -> where($map) -> count()){
+//            return array('status' => 0, 'info' => '请勿重复参与');
+//        }
         $data['winning_numbers'] = $activity_data['winning_numbers'];
         $data['activity_id'] = $activity_data['id'];
         $data['end_time'] = $activity_data['end_time'];
@@ -754,10 +765,10 @@ class User
         }
 
         $update_data = [];
-        foreach ($data['checkboxValues'] as $v){
-            $update_data['number'.$v] = $beishu;
-            Db::name('activity') -> where('id',$activity_data['id']) -> inc('number'.$v,$beishu) -> update();
-        }
+//        foreach ($data['checkboxValues'] as $v){
+//            $update_data[$v] = $beishu;
+//            Db::name('activity') -> where('id',$activity_data['id']) -> inc($v,$beishu) -> update();
+//        }
 
 //        if($draw == 1){
 //            $zhongjiang = $beishu * 100;

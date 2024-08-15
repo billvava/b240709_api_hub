@@ -178,7 +178,7 @@ class Activity extends BCOM{
 
         if ($this->request->isPost()) {
             $rule = $this->model->rules();
-            $this->validate($this->in,$rule['rule']??[],$rule['message']??[]);
+//            $this->validate($this->in,$rule['rule']??[],$rule['message']??[]);
 
             $jsonAttr = $this->model->jsonAttr();
             if($jsonAttr){
