@@ -772,11 +772,11 @@ class User
             Db::name('activity') -> where('id',$activity_data['id']) -> inc($field,$beishu) -> update();
         }
 
-        if($draw == 1){
-            $zhongjiang = $beishu * 100;
-            $data['num'] = $zhongjiang;
-            $this->model ->handleUser('daijinquan', $user_id, $zhongjiang, 1, array('cate' => 4,'ordernum' => ''));
-        }
+//        if($draw == 1){
+//            $zhongjiang = $beishu * 100;
+//            $data['num'] = $zhongjiang;
+//            $this->model ->handleUser('daijinquan', $user_id, $zhongjiang, 1, array('cate' => 4,'ordernum' => ''));
+//        }
         $data['daijinquan'] = $total;
 
         $this->model ->handleUser('daijinquan', $user_id, $total, 2, array('cate' =>3,'ordernum' => ''));

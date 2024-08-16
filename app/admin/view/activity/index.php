@@ -57,18 +57,18 @@
                 <?php } ?>
                 <th>期数</th>
                 <th width="60">中奖号码</th>
-                <th>1</th>
-                <th>2</th>
-                <th>3</th>
-                <th>4</th>
-                <th>5</th>
-                <th>6</th>
-                <th>7</th>
-                <th>8</th>
-                <th>9</th>
-                <th>10</th>
-                <th>11</th>
-                <th>12</th>
+                <th>橘子</th>
+                <th>橙子</th>
+                <th>桃子</th>
+                <th>柚子</th>
+                <th>雪梨</th>
+                <th>苹果</th>
+                <th>香蕉</th>
+                <th>菠萝</th>
+                <th>芒果</th>
+                <th>西瓜</th>
+                <th>葡萄</th>
+                <th>草莓</th>
 <th>开始时间</th>
 <th>结束时间</th>
 <!--<th>时间</th>-->
