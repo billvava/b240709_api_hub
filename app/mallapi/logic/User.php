@@ -718,6 +718,7 @@ class User
         $data = input();
         $activity_id = $data['activity_id'];
         $activity_data = Db::name('activity') -> where('id',$activity_id) -> find();
+        $array = ['橘子'=>1,'橙子'=>2,'桃子'=>3,'柚子'=>4,'雪梨'=>5,'苹果'=>6,'香蕉'=>7,'菠萝'=>8,'芒果'=>9,'西瓜'=>10,'葡萄'=>11,'草莓'=>12];
         if(!$activity_data){
             return array('status' => 0, 'info' => '非法操作');
         }
@@ -765,16 +766,17 @@ class User
         }
 
         $update_data = [];
-//        foreach ($data['checkboxValues'] as $v){
-//            $update_data[$v] = $beishu;
-//            Db::name('activity') -> where('id',$activity_data['id']) -> inc($v,$beishu) -> update();
-//        }
+        foreach ($data['checkboxValues'] as $v){
+            $field = 'number'.$array[$v];
+            $update_data[$field] = $beishu;
+            Db::name('activity') -> where('id',$activity_data['id']) -> inc($field,$beishu) -> update();
+        }
 
-//        if($draw == 1){
-//            $zhongjiang = $beishu * 100;
-//            $data['num'] = $zhongjiang;
-//            $this->model ->handleUser('daijinquan', $user_id, $zhongjiang, 1, array('cate' => 4,'ordernum' => ''));
-//        }
+        if($draw == 1){
+            $zhongjiang = $beishu * 100;
+            $data['num'] = $zhongjiang;
+            $this->model ->handleUser('daijinquan', $user_id, $zhongjiang, 1, array('cate' => 4,'ordernum' => ''));
+        }
         $data['daijinquan'] = $total;
 
         $this->model ->handleUser('daijinquan', $user_id, $total, 2, array('cate' =>3,'ordernum' => ''));
