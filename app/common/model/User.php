@@ -825,7 +825,7 @@ class User extends Model {
                 $num_json_array = json_decode($value['num_json'],true);
                 $bonus = 0;
                 $winning_numbers = $value['winning_numbers'];
-                Db::name('activity_match') -> where('name',$winning_numbers) -> inc('num');
+                Db::name('activity_match') -> where('name',$winning_numbers) -> inc('num') -> update();
                 if(in_array($winning_numbers,$num_json_array)){
                     $bonus = $value['beishu'] * 100;
                     $this->handleUser('daijinquan', $value['user_id'], $bonus, 1, array('cate' => 4,'ordernum' => ''));
