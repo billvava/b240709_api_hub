@@ -665,6 +665,21 @@ class User
             $list[$key] = $value;
 
         }
+        $activity = Db::name('activity') -> order('id desc') -> find();
+        $shuiguo_list = [
+            '橘子'=>$activity['number1'],
+            '橙子'=>$activity['number2'],
+            '桃子'=>$activity['number3'],
+            '柚子'=>$activity['number4'],
+            '雪梨'=>$activity['number5'],
+            '苹果'=>$activity['number6'],
+            '香蕉'=>$activity['number7'],
+            '菠萝'=>$activity['number8'],
+            '芒果'=>$activity['number9'],
+            '西瓜'=>$activity['number10'],
+            '葡萄'=>$activity['number11'],
+            '草莓'=>$activity['number12'],
+        ];
         $map = [];
         $map[] = ['activity_id','=',$activity_data['id']];
         $map[] = ['user_id','=',$user_id];
@@ -675,6 +690,7 @@ class User
         $activity_data['is_jingcai'] = $is_jingcai ;
         $data['list'] = $list;
         $data['daijinquan'] = $daijinquan;
+        $data['shuiguo_list'] = $shuiguo_list;
         $data['remainingNum'] = 5;// 砸蛋次数
         $activity_data['diff_time'] = $activity_data['end_time'] - time();
         $data['activity_data'] = $activity_data;
