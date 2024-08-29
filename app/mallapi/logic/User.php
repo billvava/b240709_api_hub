@@ -197,7 +197,7 @@ class User
             }
 
 
-            $this->data['uinfo'] = get_arr_field($this->uinfo, array('headimgurl', 'nickname', 'rank_name', 'rank', 'tel', 'sex', 'birthday', 'realname'));
+            $this->data['uinfo'] = $this->uinfo;
             $this->data['address_text'] = $address_text ? $address_text : '请选择';
             return array('status' => 1, 'data' => $this->data);
         }
@@ -824,4 +824,103 @@ class User
     }
 
 
+    /**
+     *提货
+     * tihuo
+     * array
+     * @return array
+     * @Author kevin
+     * @date 2024/6/15 17:23
+     */
+    public function tihuo()
+    {
+        $data = input();
+        $uid = $this->uinfo['id'];
+        $jinhuoquan = $this->uinfo['jinhuoquan'];
+
+        $num = $data['num'];
+
+
+        $product_id = $data['product_id'];
+        $tihuo_product = Db::name('tihuo_product') -> where('id',$product_id) -> find();
+        $price = $tihuo_product['price'];
+        $product_name = $tihuo_product['name'];
+        if($num < 1){
+            return ['status' => 0, 'info' => '请输入购买数量'];
+        }
+        $total_price = $price * $num;
+        if($jinhuoquan < $total_price){
+            return ['status' => 0, 'info' => '进货券不足'];
+        }
+
+        if(!$data['real_name']){
+            return ['status' => 0, 'info' => '姓名不能为空'];
+        }
+        if(!$data['tel']){
+            return ['status' => 0, 'info' => '手机号码不能为空'];
+        }
+
+        if(!$data['address']){
+            return ['status' => 0, 'info' => '地址不能为空'];
+        }
+
+        $data['num'] = $num;
+        $data['product_name'] = $product_name;
+        $data['total_price'] = $total_price;
+        $data['price'] = $price;
+        $data['user_id'] = $uid;
+        $data['create_time'] = date('Y-m-d H:i:s',time());
+        Db::name('tihuo') -> save($data);
+
+        $this->model ->handleUser('jinhuoquan', $uid, $total_price, 2, array('cate' => 7,'ordernum' => ''));
+        return ['status' => 1, 'info' => '提交成功'];
+    }
+
+    /**
+     *我的提货列表
+     * getMyTihuoList
+     * array
+     * @return array
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\DbException
+     * @Author kevin
+     * @date 2024/6/15 17:23
+     */
+    public function getMyTihuoList()
+    {
+        $page = input('page',1);
+        $page_size = input('page_size',10);
+        $uid = $this->uinfo['id'];
+        $map = [];
+        $map[] = ['user_id', '=', $uid];
+        $order = 'id desc';
+
+        $list = Db::name('tihuo') ->where($map)-> orderRaw($order) -> paginate(['page' => $page, 'list_rows' => $page_size]);
+        foreach ($list as $key => $value){
+            $value['status_text'] = $value['status']==1?'已发货':'待发货';
+            $list[$key] = $value;
+        }
+        $data = [];
+        $data['list'] = $list;
+        return ['status' => 1, 'data' => $data];
+    }
+
+    /**
+     * @return array
+     * @throws \think\exception\DbException
+     */
+    public function getProductList(){
+        $page = input('page',1);
+        $page_size = input('page_size',10);
+
+        $map = [];
+        $map[] = ['status','=',1];
+        $order = 'id desc';
+
+        $list = Db::name('tihuo_product') ->where($map)-> orderRaw($order) -> paginate(['page' => $page, 'list_rows' => $page_size]);
+
+        $data = [];
+        $data['list'] = $list;
+        return ['status' => 1, 'data' => $data];
+    }
 }
