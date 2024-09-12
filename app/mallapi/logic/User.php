@@ -136,7 +136,8 @@ class User
             ],
             [
                 'name' => '进货商城产品上架',
-                'url' =>'/pages/user/cashout/cashout',
+                //'url' =>'/pages/user/cashout/cashout',
+                'url' => '/pages/user/order/goods/index',
                 'icon' => "user-center/icon-nav-4.png",
             ],
             [
