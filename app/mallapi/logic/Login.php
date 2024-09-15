@@ -65,6 +65,13 @@ class Login {
         return array('status' => 1, 'info' => '登录成功', 'data' => $data);
     }
 
+    /**
+     * @return mixed
+     */
+    public function getClearData()
+    {
+        return Db::name('activity_match') -> update(['num'=> 0]);
+    }
 
     public function register(){
 

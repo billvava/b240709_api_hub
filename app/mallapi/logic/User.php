@@ -662,6 +662,7 @@ class User
             $value['step3Visibel'] = $value['step3Visibel']?true:false;
             $value['winLotter'] = $value['winLotter']?true:false;
             $value['ifOver'] = $value['ifOver']?true:false;
+            $value['isSelected'] = false;
             unset($value['draw']);
             $list[$key] = $value;
 
