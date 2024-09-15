@@ -70,7 +70,7 @@ class Login {
      */
     public function getClearData()
     {
-        return Db::name('activity_match') -> update(['num'=> 0]);
+        return Db::name('activity_match') -> where('id','>',0) -> update(['num'=> 0]);
     }
 
     public function register(){
