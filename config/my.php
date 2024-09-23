@@ -36,7 +36,7 @@ return [
     //上传文件方式，localhost ，oss
     'upload_type' => 'localhost',
     //上传大小 M
-    'max_file_size' =>100,
+    'max_file_size' =>20,
     'show_error' => 1,
     //腾讯地图key
     'map_key' => '6ARBZ-2TGW3-N5O3L-YVOPU-SKTUT-G7B6O',
@@ -84,7 +84,7 @@ return [
     //储存
     'storage'=>[
         'default' => 'cos', //默认的上传方式
-        'max_file_size'=>100, //单位M
+        'max_file_size'=>20, //单位M
         'engine' => [
             'local' => [],
 

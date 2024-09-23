@@ -35,7 +35,8 @@
         videoActionName: "uploadvideo",
         fileActionName: "uploadfile",
         imageFieldName: "file", // 提交的图片表单名称
-        imageMaxSize: 1048576, // 上传大小限制，单位B
+        //imageMaxSize: 1048576, // 上传大小限制，单位B
+        imageMaxSize: 20971520, // 上传大小限制，单位B
         imageUrlPrefix: "",
         scrawlUrlPrefix: "",
         videoUrlPrefix: "",
