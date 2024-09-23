@@ -37,6 +37,7 @@ class Cashout
     public function take()
     {
         $cate = $this->in['cate'] ? $this->in['cate'] : 'bro';
+        $type = input('type',1);
         $can_cate = [
             'bro' => '礼包',
            'money' => '余额',
@@ -91,11 +92,29 @@ class Cashout
                 return array('status' => 0, 'info' => "提现时间为8：00—18：00");
             }*/
 
-            if ($this->in['money'] <= 0) {
-                return array('status' => 0, 'info' => "请输入金额");
 
-            }
+
+//            if ($this->in['money'] <= 0) {
+//                return array('status' => 0, 'info' => "请输入金额");
+//
+//            }
             $money = number_format($this->in['money'], 2, '.', '');
+            if ($money <= 0) {
+                return array('status' => 0, 'info' => "请输入金额");
+            }
+            if ($this->data['total'] < $money) {
+                return array('status' => 0, 'info' => "金额不足");
+            }
+
+            if($type == 2){ //兑换股票
+                $this->model->handleUser('gongxianzhi', $this->uinfo['id'], $money, 1, array('cate' => 1, 'ordernum' => ''));
+                $cate_num = $cate =='jinhuoquan'?5:11;
+                $this->model->handleUser($cate, $this->uinfo['id'], $money, 2, array('cate' => $cate_num));
+               
+                return array('status' => 1, 'info' => '兑换成功');
+            }
+
+
             $bankInfo = $this->channel_model->getInfo($this->in['bank_id'], false);
 
              if (!$this->in['bank_id']) {
@@ -117,14 +136,9 @@ class Cashout
             if ($money < 1) {
                 return array('status' => 0, 'info' => "最低1元");
             }
-            if ($money <= 0) {
-                return array('status' => 0, 'info' => "请输入金额");
-            }
-            if ($this->data['total'] < $money) {
-                return array('status' => 0, 'info' => "金额不足");
-            }
 
-           
+
+
 
             $plus_total =  $agency_ratio  * $money / 100;
 //            if ($agency_fee > 0) {

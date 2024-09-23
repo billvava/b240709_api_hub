@@ -46,6 +46,7 @@ return array(
         7 => '中奖',
         8 => '绿色积分',
         9 => '后台操作',
+        10 => '团队将',
     ),
     'user_daijinquan_cate' => array(
         1 => '消费赠送代金券',
@@ -65,7 +66,7 @@ return array(
     ),
 
     'user_gongxianzhi_cate' => array(
-        1 => '合成收入',
+        1 => '兑换',
     ),
 
     'user_jinhuoquan_cate' => array(

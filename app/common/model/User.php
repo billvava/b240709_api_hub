@@ -773,6 +773,20 @@ class User extends Model {
     }
 
 
+    public function tuanduijiang($money,$uid){
+        $rank =  $this->where(array('id' => $uid))->value('rank');
+        $tuiduijiang = C('tuanduijiang');
+        $tuiduijiang = explode('|',$tuiduijiang);
+        $total_dot = $money * $tuiduijiang[$rank-2]??0;
+
+        if($total_dot > 0 ){
+            $this->handleUser('lvse_dot', $uid, $total_dot, 1, array('cate' => 10,'ordernum' => ''));
+        }
+
+        return true;
+    }
+
+
     //间推奖
     public function jiantuijiang($total_dot,$uid){
         $pid =  Db::name("user")->where(array('id' => $uid))->value('pid');

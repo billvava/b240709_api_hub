@@ -130,7 +130,7 @@ class UserCashoutChannel extends Model
     public function getLan($field = '')
     {
         $lans = array('cate' => array('bank' => '银行卡',
-         // 'alipay' => '支付宝',
+          'alipay' => '支付宝',
            'weixin' => '微信',
             ),);
         if ($field == '') {

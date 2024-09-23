@@ -135,7 +135,7 @@ class User
                 'icon' => "user-center/icon-nav-1.png",
             ],
             [
-                'name' => '进货商城产品上架',
+                'name' => '进货商城专区',
                 //'url' =>'/pages/user/cashout/cashout',
                 'url' => '/pages/user/order/goods/index',
                 'icon' => "user-center/icon-nav-4.png",
@@ -630,7 +630,7 @@ class User
 
             if (Db::name('hecheng')->save($data)) {
 //                Db::name('user') -> where('id',$uid) -> inc('gongxianzhi',$gongxianzhi_value) -> update();
-                $this->model->handleUser('gongxianzhi', $uid, $gongxianzhi_value, 1, array('cate' => 1, 'ordernum' => ''));
+//                $this->model->handleUser('gongxianzhi', $uid, $gongxianzhi_value, 1, array('cate' => 1, 'ordernum' => ''));
                 $this->model->handleUser('daijinquan', $uid, $num, 2, array('cate' => 2, 'ordernum' => ''));
                 $this->model->handleUser('lvse_dot', $uid, $num, 2, array('cate' => 5, 'ordernum' => ''));
                 $this->model->handleUser('jinhuoquan', $uid, $jinhuoquan_value, 1, array('cate' => 4, 'ordernum' => ''));
