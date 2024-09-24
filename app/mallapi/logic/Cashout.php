@@ -106,13 +106,13 @@ class Cashout
                 return array('status' => 0, 'info' => "金额不足");
             }
 
-            if($type == 2){ //兑换股票
-                $this->model->handleUser('gongxianzhi', $this->uinfo['id'], $money, 1, array('cate' => 1, 'ordernum' => ''));
-                $cate_num = $cate =='jinhuoquan'?5:11;
-                $this->model->handleUser($cate, $this->uinfo['id'], $money, 2, array('cate' => $cate_num));
-               
-                return array('status' => 1, 'info' => '兑换成功');
-            }
+//            if($type == 2){ //兑换股票
+//                $this->model->handleUser('gongxianzhi', $this->uinfo['id'], $money, 1, array('cate' => 1, 'ordernum' => ''));
+//                $cate_num = $cate =='jinhuoquan'?5:11;
+//                $this->model->handleUser($cate, $this->uinfo['id'], $money, 2, array('cate' => $cate_num));
+//
+//                return array('status' => 1, 'info' => '兑换成功');
+//            }
 
 
             $bankInfo = $this->channel_model->getInfo($this->in['bank_id'], false);

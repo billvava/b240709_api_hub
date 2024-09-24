@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types = 1);
+declare (strict_types=1);
 
 namespace app\common\model;
 
@@ -11,7 +11,8 @@ use think\Model;
 /**
  * @mixin think\Model
  */
-class User extends Model {
+class User extends Model
+{
 
     protected $name = 'user';
 
@@ -19,7 +20,8 @@ class User extends Model {
      * 统一注册
      */
 
-    public function reg($val, $type, $map = []) {
+    public function reg($val, $type, $map = [])
+    {
         if (!in_array($type, ['unionid', 'openid', 'tel'])) {
             return ['status' => 0, 'info' => '类型不对'];
         }
@@ -51,7 +53,7 @@ class User extends Model {
                 'create_time' => date('Y-m-d H:i:s'),
                 'create_ip' => get_client_ip(),
                 'update_time' => date('Y-m-d H:i:s'),
-                'openid' => $type == 'openid' ? $val : ($map['openid'].''),
+                'openid' => $type == 'openid' ? $val : ($map['openid'] . ''),
                 'unionid' => $type == 'unionid' ? $val : '',
                 'headimgurl' => $map['headimgurl'] ? $map['headimgurl'] : '',
                 'pid' => $map['pid']
@@ -80,17 +82,18 @@ class User extends Model {
      * @param type $user_id
      * @return null
      */
-    public function getUserInfo($user_id, $cache = false) {
+    public function getUserInfo($user_id, $cache = false)
+    {
         if (!$user_id)
             return null;
         $model = Db::name('user');
         if ($cache == false) {
             $where['a.id'] = $user_id;
             $info = $model->alias('a')
-                    ->leftJoin('user_rank b', 'a.rank=b.id')
-                    ->where($where)
-                    ->field('a.*,b.name  as rank_name,b.discount')
-                    ->find();
+                ->leftJoin('user_rank b', 'a.rank=b.id')
+                ->where($where)
+                ->field('a.*,b.name  as rank_name,b.discount')
+                ->find();
             $info['headimgurl'] = $info['headimgurl'] ? get_img_url($info['headimgurl']) : lang('empty_header');
             $info['user_id'] = $info['id'];
             return $info;
@@ -100,10 +103,10 @@ class User extends Model {
         if (!$info) {
             $where['a.id'] = $user_id;
             $info = $model->alias('a')
-                    ->leftJoin('user_rank b', 'a.rank=b.id')
-                    ->where($where)
-                    ->field('a.*,b.name as rank_name,b.discount')
-                    ->find();
+                ->leftJoin('user_rank b', 'a.rank=b.id')
+                ->where($where)
+                ->field('a.*,b.name as rank_name,b.discount')
+                ->find();
             if (!$info) {
                 return null;
             }
@@ -118,7 +121,8 @@ class User extends Model {
     }
 
     //获取角色
-    public function rank_all() {
+    public function rank_all()
+    {
         $name = 'rank_all';
         $data = cache($name);
         if (!$data) {
@@ -136,7 +140,8 @@ class User extends Model {
      * 获取扩展信息
      * @param type $user_id
      */
-    public function getExt($user_id, $cache = true) {
+    public function getExt($user_id, $cache = true)
+    {
         if (!$user_id) {
             return null;
         }
@@ -149,11 +154,13 @@ class User extends Model {
         return $data;
     }
 
-    public function getExtField($user_id, $field) {
+    public function getExtField($user_id, $field)
+    {
         return Db::name('user_ext')->where(array('user_id' => $user_id))->value($field);
     }
 
-    public function setExtField($user_id, $field, $val) {
+    public function setExtField($user_id, $field, $val)
+    {
         return Db::name('user_ext')->where(array('user_id' => $user_id))->save([$field => $val]);
     }
 
@@ -161,7 +168,8 @@ class User extends Model {
      * 清除getUserInfo的缓存
      * @param type $user_id
      */
-    public function clearCache($user_id) {
+    public function clearCache($user_id)
+    {
         if (!$user_id)
             return null;
         $name = 'getUserInfo' . $user_id;
@@ -172,12 +180,14 @@ class User extends Model {
     }
 
 //获取openid
-    public function getOpenid($user_id) {
+    public function getOpenid($user_id)
+    {
         return $this->where(array('id' => $user_id))->cache(true)->value('openid');
     }
 
 //获取金融数据
-    public function getFinance($user_id) {
+    public function getFinance($user_id)
+    {
         $info = $this->removeOption()->where(array('id' => $user_id))->find();
         return $info ? $info : [];
     }
@@ -188,7 +198,8 @@ class User extends Model {
      * @param type $in
      * @return type
      */
-    public function getUserLog($table, $in = array(), $page_type = 'home') {
+    public function getUserLog($table, $in = array(), $page_type = 'home')
+    {
 //bro bro money
         $model = Db::name("user_{$table}");
         $where = array();
@@ -223,7 +234,7 @@ class User extends Model {
         if ($in['cate']) {
             $where[] = ['a.cate', '=', $in['cate']];
         }
-       // dump($where);exit;
+        // dump($where);exit;
         $count = $model->alias('a')->where($where)->count();
 //分页数
         $num = $in['num'] ? $in['num'] : C('data_page_count');
@@ -245,22 +256,23 @@ class User extends Model {
         }
         $data['page'] = $Page->show();
         $data['list'] = $model->alias('a')
-                        ->leftJoin('user b', 'a.user_id=b.id')
-                        ->field("a.*,b.username")
-                        ->where($where)
-                        ->order('a.id desc')
-                        ->limit($start, $num)
-                        ->select()->toArray();
+            ->leftJoin('user b', 'a.user_id=b.id')
+            ->field("a.*,b.username")
+            ->where($where)
+            ->order('a.id desc')
+            ->limit($start, $num)
+            ->select()->toArray();
         return $data;
     }
 
     /**
      * 处理余额，佣金，积分
      */
-    public function handleUser($table, $user_id, $total, $type, $map = array()) {
-        
-        
-         if (!in_array($table, array('bro', 'dot', 'money','lvse_dot','daijinquan','duihuanquan','jinhuoquan','gongxianzhi'))) {
+    public function handleUser($table, $user_id, $total, $type, $map = array())
+    {
+
+
+        if (!in_array($table, array('bro', 'dot', 'money', 'lvse_dot', 'daijinquan', 'duihuanquan', 'jinhuoquan', 'gongxianzhi'))) {
             return false;
         }
         $user_tb = "user_{$table}";
@@ -276,15 +288,14 @@ class User extends Model {
         if ($type == 1) {
 
 
-            if($map['cate'] <16){
-               if($map['cate'] == 7){
-                   $r = Db::name($user)->where(array('id' => $user_id))->inc('consumption', $total)->update();
-               }else{
-                   $r = Db::name($user)->where(array('id' => $user_id))->inc($table, $total)->update();
-               }
+            if ($map['cate'] < 16) {
+                if ($map['cate'] == 7) {
+                    $r = Db::name($user)->where(array('id' => $user_id))->inc('consumption', $total)->update();
+                } else {
+                    $r = Db::name($user)->where(array('id' => $user_id))->inc($table, $total)->update();
+                }
 
             }
-
 
 
 //            if(in_array($map['cate'] ,[5,6])){
@@ -298,15 +309,15 @@ class User extends Model {
 //            }
 
         } else if ($type == 2) {
-            if($map['cate'] == 8){
+            if ($map['cate'] == 8) {
                 $r = Db::name($user)->where(array('id' => $user_id))->dec('consumption', $total)->update();
-            }else{
+            } else {
                 $r = Db::name($user)->where(array('id' => $user_id))->dec($table, $total)->update();
             }
         }
 
         $sy = Db::name("user")->where(array('id' => $user_id))->value($table);
-        
+
         $add = array(
             'time' => date('Y-m-d H:i:s'),
             'user_id' => $user_id,
@@ -330,7 +341,8 @@ class User extends Model {
      * 获取等级的名称
      * @param type $rank
      */
-    function getRankName($rank, $is_echo = true) {
+    function getRankName($rank, $is_echo = true)
+    {
         if ($rank <= 0) {
             return false;
         }
@@ -352,7 +364,8 @@ class User extends Model {
      * @param type $user_id
      * @param type $is_echo
      */
-    function getNickname($user_id, $is_echo = true) {
+    function getNickname($user_id, $is_echo = true)
+    {
         if ($user_id <= 0) {
             return false;
         }
@@ -374,7 +387,8 @@ class User extends Model {
      * @param type $user_id
      * @param type $is_echo
      */
-    function getHeadimgurl($user_id, $is_echo = true) {
+    function getHeadimgurl($user_id, $is_echo = true)
+    {
         if ($user_id <= 0) {
             return false;
         }
@@ -399,7 +413,8 @@ class User extends Model {
      * @param type $ordernum 订单号或者流水号
      * @param type $is_rollback 是否回滚
      */
-    public function addMoney($user_id, $total, $msg, $ordernum = '') {
+    public function addMoney($user_id, $total, $msg, $ordernum = '')
+    {
         return $this->handleUser('money', $user_id, $total, 1, array('msg' => $msg, 'ordernum' => $ordernum));
     }
 
@@ -410,7 +425,8 @@ class User extends Model {
      * @param type $msg 日志消息
      * @param type $ordernum 订单号或者流水号
      */
-    public function reduceMoney($user_id, $total, $msg, $ordernum = '') {
+    public function reduceMoney($user_id, $total, $msg, $ordernum = '')
+    {
         return $this->handleUser('money', $user_id, $total, 2, array('msg' => $msg, 'ordernum' => $ordernum));
     }
 
@@ -422,7 +438,8 @@ class User extends Model {
      * @param type $ordernum 订单号或者流水号
      * @param type $is_rollback 是否回滚
      */
-    public function addInts($user_id, $total, $msg, $ordernum = '') {
+    public function addInts($user_id, $total, $msg, $ordernum = '')
+    {
         return $this->handleUser('dot', $user_id, $total, 1, array('msg' => $msg, 'ordernum' => $ordernum));
     }
 
@@ -434,7 +451,8 @@ class User extends Model {
      * @param type $ordernum 订单号或者流水号
      * @param type $is_rollback 是否回滚
      */
-    public function reduceInts($user_id, $total, $msg, $ordernum = '') {
+    public function reduceInts($user_id, $total, $msg, $ordernum = '')
+    {
         return $this->handleUser('dot', $user_id, $total, 2, array('msg' => $msg, 'ordernum' => $ordernum));
     }
 
@@ -446,7 +464,8 @@ class User extends Model {
      * @param type $ordernum 订单号或者流水号
      * @param type $is_rollback 是否回滚
      */
-    public function addBro($user_id, $total, $msg, $ordernum = '') {
+    public function addBro($user_id, $total, $msg, $ordernum = '')
+    {
         return $this->handleUser('bro', $user_id, $total, 1, array('msg' => $msg, 'ordernum' => $ordernum));
     }
 
@@ -458,17 +477,19 @@ class User extends Model {
      * @param type $ordernum 订单号或者流水号
      * @param type $is_rollback 是否回滚
      */
-    public function reduceBro($user_id, $total, $msg, $ordernum = '') {
+    public function reduceBro($user_id, $total, $msg, $ordernum = '')
+    {
         return $this->handleUser('bro', $user_id, $total, 2, array('msg' => $msg, 'ordernum' => $ordernum));
     }
 
 //累计所得佣金
-    public function getHistoryBro($uid, $date = '') {
+    public function getHistoryBro($uid, $date = '')
+    {
 
 
         $where = [
-                ['user_id', '=', $uid],
-                ['type', '=', 1]
+            ['user_id', '=', $uid],
+            ['type', '=', 1]
         ];
         if ($date) {
             $where[] = array('time', '>', $date);
@@ -478,25 +499,27 @@ class User extends Model {
     }
 
 //获取上级
-    public function getPinfo($user_id) {
+    public function getPinfo($user_id)
+    {
         return Db::name('user_parent')
-                        ->alias('a')
-                        ->leftJoin('user b', 'a.pid1=b.id')
-                        ->leftJoin('user c', 'a.pid2=c.id')
-                        ->leftJoin('user d', 'a.pid3=d.id')
-                        ->field("a.*,b.nickname as nickname1,c.nickname as nickname2,d.nickname as nickname3")
-                        ->where(array('a.user_id' => $user_id))->find();
+            ->alias('a')
+            ->leftJoin('user b', 'a.pid1=b.id')
+            ->leftJoin('user c', 'a.pid2=c.id')
+            ->leftJoin('user d', 'a.pid3=d.id')
+            ->field("a.*,b.nickname as nickname1,c.nickname as nickname2,d.nickname as nickname3")
+            ->where(array('a.user_id' => $user_id))->find();
     }
 
 //token验证
-    public function token_check($token) {
+    public function token_check($token)
+    {
         if (!$token) {
             return false;
         }
         $user_id = Db::name('user_token')->where(array(
-                        ['token', '=', $token],
-                        ['expire', '>', date('Y-m-d H:i:s')],
-                ))->value('user_id');
+            ['token', '=', $token],
+            ['expire', '>', date('Y-m-d H:i:s')],
+        ))->value('user_id');
         if ($user_id) {
             return $user_id;
         } else {
@@ -505,7 +528,8 @@ class User extends Model {
     }
 
 //添加token
-    public function add_token($user_id) {
+    public function add_token($user_id)
+    {
         $token = md5(uniqid() . $user_id . rand(10, 9999));
         Db::name('user_token')->insert(array(
             'user_id' => $user_id,
@@ -515,11 +539,13 @@ class User extends Model {
         return $token;
     }
 
-    public function getChildCount($pid) {
+    public function getChildCount($pid)
+    {
         return Db::name('user_parent')->where(array('pid1' => $pid))->count();
     }
 
-    public function getRankInfo($id) {
+    public function getRankInfo($id)
+    {
         return Db::name('user_rank')->where(array('id' => $id))->find();
     }
 
@@ -528,7 +554,8 @@ class User extends Model {
      * @param type $uid
      * @return type
      */
-    public function getPidInfo($uid) {
+    public function getPidInfo($uid)
+    {
         $p_str = $this->getPid($uid);
         $p_arr = array_filter(explode(',', $p_str));
         foreach ($p_arr as &$v) {
@@ -540,7 +567,8 @@ class User extends Model {
     /**
      * 递归获取
      */
-    public function getPid($uid) {
+    public function getPid($uid)
+    {
         $model = Db::name('user_parent');
         $pid1 = $model->where(array('user_id' => $uid))->value('pid1');
         $pids = '';
@@ -556,150 +584,149 @@ class User extends Model {
 
 
     //统计业绩
-    public function saveYeji($user_id,$money)
+    public function saveYeji($user_id, $money)
     {
 
-        if(Db::name('mall_yeji') -> where('user_id',$money) -> count()){
-            Db::name('mall_yeji') -> where('user_id',$money) -> inc('money',$money) -> update();
-        }else{
+        if (Db::name('mall_yeji')->where('user_id', $money)->count()) {
+            Db::name('mall_yeji')->where('user_id', $money)->inc('money', $money)->update();
+        } else {
             $data['user_id'] = $user_id;
             $data['money'] = $money;
             $data['create_time'] = date('Y-m-d H:i:s');
-            Db::name('mall_yeji') -> save($data);
+            Db::name('mall_yeji')->save($data);
         }
         return true;
     }
 
 
-    public function jicha($referee_path,$money)
+    public function jicha($referee_path, $money)
     {
         $jicha = C('jicha');
         $pingji = C('pingji');
 
-        $jicha_array = explode('|',$jicha);
-        if(!$referee_path){
+        $jicha_array = explode('|', $jicha);
+        if (!$referee_path) {
             return;
         }
-        $referee_path = explode(',',$referee_path);
+        $referee_path = explode(',', $referee_path);
         $map = [];
         $map[] = ['id', 'in', $referee_path];
 
-        $list = Db::name("user")->where($map)->  order('id asc') -> field('*') -> select();
-      
+        $list = Db::name("user")->where($map)->order('id asc')->field('*')->select();
+
         $cate = 5;
-        foreach ($list as $key => $value){
+        foreach ($list as $key => $value) {
             $rank = $value['rank'];
-            $c_rank = $list[$key+1]['rank']??0;
+            $c_rank = $list[$key + 1]['rank'] ?? 0;
             $bili = 0;
-            if($rank > $c_rank){
+            if ($rank > $c_rank) {
                 $bili_1 = $jicha_array[$rank - 2] ?? 0;
                 $bili_2 = $jicha_array[$c_rank - 2] ?? 0;
                 $bili = $bili_1 - $bili_2;
-            }elseif ($rank == $c_rank && $rank >=5){
+            } elseif ($rank == $c_rank && $rank >= 5) {
                 $bili = $pingji;
                 $cate = 6;
-            }else{
+            } else {
                 $bili = 0;
             }
             $bili = $bili / 100;
 
-            $bonus = round($money*$bili,2) ;
-            if($bonus > 0){
-                $this->handleUser('daijinquan',$value['id'], $bonus, 1, array('cate' => $cate,'ordernum' => ''));
+            $bonus = round($money * $bili, 2);
+            if ($bonus > 0) {
+                $this->handleUser('daijinquan', $value['id'], $bonus, 1, array('cate' => $cate, 'ordernum' => ''));
             }
         }
     }
 
-    public function shengji($referee_path){
+    public function shengji($referee_path)
+    {
         $referee_path_array = [];
-        if($referee_path){
-            $referee_path_array = explode(',',$referee_path);
+        if ($referee_path) {
+            $referee_path_array = explode(',', $referee_path);
         }
         $map = [];
         $map[] = ['id', 'in', $referee_path_array];
         $order = 'id desc';
         $field = 'id,referee_path';
-        $list = $this ->where($map)-> orderRaw($order) -> field($field) -> select();
-        foreach ($list as $key => $value){
-            $this -> updateRank($value['id'],$value['referee_path']);
+        $list = $this->where($map)->orderRaw($order)->field($field)->select();
+        foreach ($list as $key => $value) {
+            $this->updateRank($value['id'], $value['referee_path']);
         }
     }
 
     //更新级别
-    public function updateRank($uid,$referee_path){
-        $user =  Db::name('user')->where('id',$uid)->find();
+    public function updateRank($uid, $referee_path)
+    {
+        $user = Db::name('user')->where('id', $uid)->find();
 
         $shengji1 = C('shengji1');
-        $shengji2= C('shengji2');
+        $shengji2 = C('shengji2');
 
-        $shengji1_array = explode('|',$shengji1); //业绩
-        $shengji2_array = explode('|',$shengji2); //等级人数
-        if($user['rank'] <1){
+        $shengji1_array = explode('|', $shengji1); //业绩
+        $shengji2_array = explode('|', $shengji2); //等级人数
+        if ($user['rank'] < 1) {
             $update_data['rank'] = 1;
         }
         $update_data['is_pay'] = 1;
-        Db::name('user')-> where('id',$uid) -> update($update_data);
+        Db::name('user')->where('id', $uid)->update($update_data);
         $referee_path_array = [];
-        if($referee_path){
-            $referee_path_array = explode(',',$referee_path);
+        if ($referee_path) {
+            $referee_path_array = explode(',', $referee_path);
         }
 
 
         $map = [];
         $map[] = ['id', 'in', $referee_path_array];
-        if(!$referee_path_array){
+        if (!$referee_path_array) {
             return true;
         }
-        $list = Db::name("user")->where($map)->  order('id desc') -> select();
-        foreach ($list as $value){
+        $list = Db::name("user")->where($map)->order('id desc')->select();
+        foreach ($list as $value) {
             $map = [];
             $map[] = ['referee_path', 'like', '%' . "," . $value['id'] . "," . '%'];
-            $user_ids = $this -> where($map)-> column('id');
+            $user_ids = $this->where($map)->column('id');
             $rank = $value['rank'];
-            $total_sum = Db::name('mall_yeji') -> where('user_id','in',$user_ids) -> sum('money');//团队总业绩
-            $re_num =  $this -> where('pid',$value['id']) -> where('is_pay',1) -> count(); //有效直推人
-            if($rank <= 1){ //升级v1
-                if($total_sum >= $shengji1_array[0] && $re_num >=$shengji2_array[0]){
+            $total_sum = Db::name('mall_yeji')->where('user_id', 'in', $user_ids)->sum('money');//团队总业绩
+            $re_num = $this->where('pid', $value['id'])->where('is_pay', 1)->count(); //有效直推人
+            if ($rank <= 1) { //升级v1
+                if ($total_sum >= $shengji1_array[0] && $re_num >= $shengji2_array[0]) {
                     $new_rank = 2;
                 }
-            }elseif($rank <= 2){ //升级v2
-                if($total_sum >= $shengji1_array[1] && $re_num >=$shengji2_array[1]){
+            } elseif ($rank <= 2) { //升级v2
+                if ($total_sum >= $shengji1_array[1] && $re_num >= $shengji2_array[1]) {
                     $new_rank = 3;
                 }
-            }elseif($rank <= 3){ //升级v3
-                if($total_sum >= $shengji1_array[2] && $re_num >=$shengji2_array[2]){
+            } elseif ($rank <= 3) { //升级v3
+                if ($total_sum >= $shengji1_array[2] && $re_num >= $shengji2_array[2]) {
                     $new_rank = 4;
                 }
-            }elseif($rank <= 4){ //升级v4
-                $num = $this -> validateLevel($value['id'],4);//三个V3且不在同一条线
-                if($num >=$shengji2_array[3]){
+            } elseif ($rank <= 4) { //升级v4
+                $num = $this->validateLevel($value['id'], 4);//三个V3且不在同一条线
+                if ($num >= $shengji2_array[3]) {
                     $new_rank = 5;
                 }
-            }elseif($rank <= 5){ //升级v5
-                $num = $this -> validateLevel($value['id'],5);//三个V4且不在同一条线
-                if($num >=$shengji2_array[4]){
+            } elseif ($rank <= 5) { //升级v5
+                $num = $this->validateLevel($value['id'], 5);//三个V4且不在同一条线
+                if ($num >= $shengji2_array[4]) {
                     $new_rank = 6;
                 }
-            }elseif($rank <= 6){ //升级v6
-                $num = $this -> validateLevel($value['id'],6);//三个V5且不在同一条线
-                if($num >=$shengji2_array[5]){
+            } elseif ($rank <= 6) { //升级v6
+                $num = $this->validateLevel($value['id'], 6);//三个V5且不在同一条线
+                if ($num >= $shengji2_array[5]) {
                     $new_rank = 7;
                 }
-            }elseif($rank <= 7){ //升级v7
-                $num = $this -> validateLevel($value['id'],7);//三个V6且不在同一条线
-                if($num >=$shengji2_array[6]){
+            } elseif ($rank <= 7) { //升级v7
+                $num = $this->validateLevel($value['id'], 7);//三个V6且不在同一条线
+                if ($num >= $shengji2_array[6]) {
                     $new_rank = 8;
                 }
             }
 
-            if($new_rank>$rank ){
-                $this -> where('id',$value['id']) ->update(['rank' => $new_rank]);
+            if ($new_rank > $rank) {
+                $this->where('id', $value['id'])->update(['rank' => $new_rank]);
             }
             return true;
         }
-
-
-
 
 
         return true;
@@ -708,20 +735,21 @@ class User extends Model {
 
 
     //判断是否符合升级条件
-    public function validateLevel($uid,$type=4){
+    public function validateLevel($uid, $type = 4)
+    {
 
-        $list = Db::name('user') ->where('pid',$uid) -> select();
-        if(!$list){
+        $list = Db::name('user')->where('pid', $uid)->select();
+        if (!$list) {
             return false;
         }
         $num = 0;
-        foreach ($list as $key => $value){
-            $res = $this -> getTeamNum($value['id'],$type);
-            if($res){
-                $num+= 1;
+        foreach ($list as $key => $value) {
+            $res = $this->getTeamNum($value['id'], $type);
+            if ($res) {
+                $num += 1;
             }
-            if($value['rank'] >= $type){
-                $num+= 1;
+            if ($value['rank'] >= $type) {
+                $num += 1;
             }
         }
         return $num;
@@ -729,43 +757,45 @@ class User extends Model {
     }
 
 
-    public function getTeamNum($uid,$type)
+    public function getTeamNum($uid, $type)
     {
         $map = [];
         $map[] = ['referee_path', 'like', '%' . "," . $uid . "," . '%'];
         $map[] = ['rank', '>=', $type];
         $order = 'id desc';
-        $count = Db::name('user') ->where($map)-> orderRaw($order) -> count();
-        if($count > 0){
+        $count = Db::name('user')->where($map)->orderRaw($order)->count();
+        if ($count > 0) {
             return 1;
-        }else{
+        } else {
             return 0;
         }
     }
 
 
     //直推奖
-    public function zhituijiang($money,$uid,$pid){
-       $is_pay =  $this->where(array('id' => $pid))->value('is_pay');
-       $lvse_dot = C('lvse_dot');
-       $total_dot = $lvse_dot * $money;
-       $zhitui = C('zhitui');
-       $daijinquan = C('daijinquan');
+    public function zhituijiang($money, $uid, $pid)
+    {
+        $this->handleUser('gongxianzhi', $uid, $money, 1, array('cate' => 1, 'ordernum' => ''));
+        $is_pay = $this->where(array('id' => $pid))->value('is_pay');
+        $lvse_dot = C('lvse_dot');
+        $total_dot = $lvse_dot * $money;
+        $zhitui = C('zhitui');
+        $daijinquan = C('daijinquan');
 
-       $daijinquan_num = $money * $daijinquan;
-       $user_lvse_dot = $daijinquan_num * $zhitui/100;//改为拿代金券的
+        $daijinquan_num = $money * $daijinquan;
+        $user_lvse_dot = $daijinquan_num * $zhitui / 100;//改为拿代金券的
 
 //       if($is_pay){
-           if($total_dot > 0 && $user_lvse_dot > 0){
+        if ($total_dot > 0 && $user_lvse_dot > 0) {
 
-               $this->handleUser('lvse_dot', $uid, $total_dot, 1, array('cate' => 8,'ordernum' => ''));
+            $this->handleUser('lvse_dot', $uid, $total_dot, 1, array('cate' => 8, 'ordernum' => ''));
 
-               $this->handleUser('lvse_dot', $pid, $user_lvse_dot, 1, array('cate' => 1,'ordernum' => ''));
-               $this->handleUser('daijinquan', $uid, $daijinquan_num, 1, array('cate' => 1,'ordernum' => ''));
+            $this->handleUser('lvse_dot', $pid, $user_lvse_dot, 1, array('cate' => 1, 'ordernum' => ''));
+            $this->handleUser('daijinquan', $uid, $daijinquan_num, 1, array('cate' => 1, 'ordernum' => ''));
 
-               $this -> jiantuijiang($daijinquan_num,$pid);
+            $this->jiantuijiang($daijinquan_num, $pid);
 
-           }
+        }
 
 //       }
 
@@ -773,14 +803,15 @@ class User extends Model {
     }
 
 
-    public function tuanduijiang($money,$uid){
-        $rank =  $this->where(array('id' => $uid))->value('rank');
+    public function tuanduijiang($money, $uid)
+    {
+        $rank = $this->where(array('id' => $uid))->value('rank');
         $tuiduijiang = C('tuanduijiang');
-        $tuiduijiang = explode('|',$tuiduijiang);
-        $total_dot = $money * $tuiduijiang[$rank-2]??0;
+        $tuiduijiang = explode('|', $tuiduijiang);
+        $total_dot = $money * $tuiduijiang[$rank - 2] ?? 0;
 
-        if($total_dot > 0 ){
-            $this->handleUser('lvse_dot', $uid, $total_dot, 1, array('cate' => 10,'ordernum' => ''));
+        if ($total_dot > 0) {
+            $this->handleUser('lvse_dot', $uid, $total_dot, 1, array('cate' => 10, 'ordernum' => ''));
         }
 
         return true;
@@ -788,70 +819,72 @@ class User extends Model {
 
 
     //间推奖
-    public function jiantuijiang($total_dot,$uid){
-        $pid =  Db::name("user")->where(array('id' => $uid))->value('pid');
-        if(!$pid){
-            return ;
+    public function jiantuijiang($total_dot, $uid)
+    {
+        $pid = Db::name("user")->where(array('id' => $uid))->value('pid');
+        if (!$pid) {
+            return;
         }
         $jiantui = C('jiantui');
-        $bonus = $total_dot * $jiantui/100;
-        if($bonus > 0){
-            $this->handleUser('lvse_dot', $pid, $bonus, 1, array('cate' => 2,'ordernum' => ''));
+        $bonus = $total_dot * $jiantui / 100;
+        if ($bonus > 0) {
+            $this->handleUser('lvse_dot', $pid, $bonus, 1, array('cate' => 2, 'ordernum' => ''));
         }
         return true;
 
     }
 
-    public function kaijiang(){
+    public function kaijiang()
+    {
 
         $file = 'example.txt'; // 要锁定的文件
         $lock = fopen($file, 'w+'); // 创建一个可写的文件句柄
-        $array = ['橘子','橙子','桃子','柚子','雪梨','苹果','香蕉','菠萝','芒果','西瓜','葡萄','草莓'];
+        $array = ['橘子', '橙子', '桃子', '柚子', '雪梨', '苹果', '香蕉', '菠萝', '芒果', '西瓜', '葡萄', '草莓'];
         if (flock($lock, LOCK_EX)) { // 获取独占锁
-            $winning_numbers = rand(0,11);
-            $num = 12*24;
+            $winning_numbers = rand(0, 11);
+            $num = 12 * 24;
             $day_start_time = strtotime("today");
 
-            for ($i=0;$i< $num;$i++){
-                $strat_time = $day_start_time + $i*300;
-                $end_time = $day_start_time +($i+1) * 300;
-                if($strat_time <= time() && time() < $end_time){
+            for ($i = 0; $i < $num; $i++) {
+                $strat_time = $day_start_time + $i * 300;
+                $end_time = $day_start_time + ($i + 1) * 300;
+                if ($strat_time <= time() && time() < $end_time) {
                     $data['strat_time'] = $strat_time;
                     $data['end_time'] = $end_time;
                 }
             }
             $data['create_time'] = date('Y-m-d H:i:s');
             $data['winning_numbers'] = $array[$winning_numbers];
-            $activity_data = Db::name('activity') -> order('id desc') -> find();
-            if(!$activity_data || $activity_data['end_time'] < time()){
-                if(isset($data['strat_time']) && $data['strat_time'] ){
-                    Db::name('activity') -> save($data);
+            $activity_data = Db::name('activity')->order('id desc')->find();
+            if (!$activity_data || $activity_data['end_time'] < time()) {
+                if (isset($data['strat_time']) && $data['strat_time']) {
+                    Db::name('activity')->save($data);
                 }
 
             }
 
             $map = [];
-            $map [] = ['end_time','<=',time()];
-            $map [] = ['status','=',0];
+            $map [] = ['end_time', '<=', time()];
+            $map [] = ['status', '=', 0];
 
-            $list = Db::name('activity_jingcai') -> where($map) -> select();
-            foreach ($list as $key => $value){
-                $num_json_array = json_decode($value['num_json'],true);
+            $list = Db::name('activity_jingcai')->where($map)->select();
+            foreach ($list as $key => $value) {
+                $num_json_array = json_decode($value['num_json'], true);
                 $bonus = 0;
                 $winning_numbers = $value['winning_numbers'];
-                Db::name('activity_match') -> where('name',$winning_numbers) -> inc('num') -> update();
-                if(in_array($winning_numbers,$num_json_array)){
+                Db::name('activity_match')->where('name', $winning_numbers)->inc('num')->update();
+                if (in_array($winning_numbers, $num_json_array)) {
                     $bonus = $value['beishu'] * 100;
-                    $this->handleUser('daijinquan', $value['user_id'], $bonus, 1, array('cate' => 4,'ordernum' => ''));
+                    $this->handleUser('daijinquan', $value['user_id'], $bonus, 1, array('cate' => 4, 'ordernum' => ''));
                 }
                 $update_data = [];
                 $update_data['status'] = 1;
                 $update_data['bonus'] = $bonus;
-                Db::name('activity_jingcai') -> where('id',$value['id']) -> update($update_data);
+                Db::name('activity_jingcai')->where('id', $value['id'])->update($update_data);
 
             }
-            if($activity_data['end_time'] < time()){
-                Db::name('activity') -> where('id',$activity_data['id']) -> update(['status' => 1]);
+            if ($activity_data['end_time'] < time()) {
+                Db::name('activity')->where('id', $activity_data['id'])->update(['status' => 1]);
                 return;
             }
 
@@ -861,7 +894,6 @@ class User extends Model {
         }
 
         fclose($lock); // 关闭文件句柄
-
 
 
     }

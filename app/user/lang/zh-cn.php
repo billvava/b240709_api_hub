@@ -66,7 +66,7 @@ return array(
     ),
 
     'user_gongxianzhi_cate' => array(
-        1 => '兑换',
+        1 => '消费获得',
     ),
 
     'user_jinhuoquan_cate' => array(
