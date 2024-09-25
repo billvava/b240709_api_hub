@@ -99,6 +99,19 @@ class Cashout
 //
 //            }
             $money = number_format($this->in['money'], 2, '.', '');
+            $tixian_money = Db::name($this->cashout_name) -> where('user_id',$this->uinfo['id']) -> sum('money');
+            $order_total_price = $this->uinfo['order_total_price'];
+            $tixian_jine = C('tixian_jine');
+            $ketixian = $order_total_price + $tixian_jine - $tixian_money;
+
+            if($order_total_price + $tixian_jine <= $tixian_money+$money){
+                if($ketixian > 0 && $ketixian < $money){
+                    return array('status' => 0, 'info' => "可提现金额：".$ketixian.'元');
+                }else{
+                    return array('status' => 0, 'info' => "已超出可提现金额");
+                }
+
+            }
             if ($money <= 0) {
                 return array('status' => 0, 'info' => "请输入金额");
             }
@@ -150,24 +163,24 @@ class Cashout
             $cate_num = $cate =='jinhuoquan'?5:11;
             $this->model->handleUser($cate, $this->uinfo['id'], $money, 2, array('cate' => $cate_num));
 
-//            Db::name($this->cashout_name)->insert(array(
-//                'cate' => $cate,
-//                'user_id' => $this->uinfo['id'],
-//                'time' => date('Y-m-d H:i:s'),
-//                'status' => 0,
-//                'money' => $money,
-//                'real_total' => ($money - $plus_total),
-//                'plus_total' => $plus_total,
-//
-//
-//                'name' => $bankInfo['name'],
-//                'tel' => $bankInfo['tel'],
-//                'address' => $bankInfo['address'],
-//                'num' => $bankInfo['num'],
-//                'realname' => $bankInfo['realname'],
-//                'channel_cate' => $bankInfo['cate'],
-//
-//            ));
+            Db::name($this->cashout_name)->insert(array(
+                'cate' => $cate,
+                'user_id' => $this->uinfo['id'],
+                'time' => date('Y-m-d H:i:s'),
+                'status' => 0,
+                'money' => $money,
+                'real_total' => ($money - $plus_total),
+                'plus_total' => $plus_total,
+
+
+                'name' => $bankInfo['name'],
+                'tel' => $bankInfo['tel'],
+                'address' => $bankInfo['address'],
+                'num' => $bankInfo['num'],
+                'realname' => $bankInfo['realname'],
+                'channel_cate' => $bankInfo['cate'],
+
+            ));
             $msg = "已申请提现，请等待客服打款";
             $this->data['title'] = '系统提示';
             $this->data['content'] = $msg;
