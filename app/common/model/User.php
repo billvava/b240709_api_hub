@@ -809,7 +809,7 @@ class User extends Model
         $tuiduijiang = C('tuanduijiang');
         $tuiduijiang = explode('|', $tuiduijiang);
         $total_dot = $money * $tuiduijiang[$rank - 2] ?? 0;
-
+        $total_dot =  $total_dot / 100;
         if ($total_dot > 0) {
             $this->handleUser('lvse_dot', $uid, $total_dot, 1, array('cate' => 10, 'ordernum' => ''));
         }
