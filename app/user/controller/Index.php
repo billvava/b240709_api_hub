@@ -139,8 +139,24 @@ class Index extends Common {
      * @menu false
      */
     public function show_parent() {
-        $pinfo = $this->model->getPinfo($this->in['user_id']);
-        View::assign('pinfo', $pinfo);
+//        $pinfo = $this->model->getPinfo($this->in['user_id']);
+//        View::assign('pinfo', $pinfo);
+//        $this->title = '上级信息';
+//        return $this->display();
+
+        $referee_path = $this->model-> where('id',$this->in['user_id']) -> value('referee_path');
+
+        $map = [];
+        $map[] = ['id', 'in', '(0' . $referee_path . '0)'];
+
+        $field = "id,nickname,rank";
+        $order = 'id desc';
+        $list =  $this->model-> where($map) -> field($field) -> orderRaw($order) -> select() -> toArray();
+        $user_level = get_user_level();
+        foreach ($list as $k => $v) {
+            $list[$k]['rank_name_text'] = $user_level[$v['rank']]??'';
+        }
+        View::assign('list', $list);
         $this->title = '上级信息';
         return $this->display();
     }

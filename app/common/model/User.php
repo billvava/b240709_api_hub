@@ -499,17 +499,23 @@ class User extends Model
     }
 
 //获取上级
+//    public function getPinfo($user_id)
+//    {
+//        return Db::name('user_parent')
+//            ->alias('a')
+//            ->leftJoin('user b', 'a.pid1=b.id')
+//            ->leftJoin('user c', 'a.pid2=c.id')
+//            ->leftJoin('user d', 'a.pid3=d.id')
+//            ->field("a.*,b.nickname as nickname1,c.nickname as nickname2,d.nickname as nickname3")
+//            ->where(array('a.user_id' => $user_id))->find();
+//    }
+
     public function getPinfo($user_id)
     {
-        return Db::name('user_parent')
-            ->alias('a')
-            ->leftJoin('user b', 'a.pid1=b.id')
-            ->leftJoin('user c', 'a.pid2=c.id')
-            ->leftJoin('user d', 'a.pid3=d.id')
-            ->field("a.*,b.nickname as nickname1,c.nickname as nickname2,d.nickname as nickname3")
-            ->where(array('a.user_id' => $user_id))->find();
+        return Db::name('user')
+            ->where('pid',$user_id)
+           ->find();
     }
-
 //token验证
     public function token_check($token)
     {
