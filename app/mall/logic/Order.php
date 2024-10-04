@@ -171,13 +171,8 @@ class Order {
 //        $this->OrderModel -> jichajiang($order_info['user_id'],$pid,$bonus,$order_info['ordernum']);
         if($type =='huodong'){
             $umodel -> zhituijiang($order_info['total'] ,$order_info['user_id'],$pid);
-<<<<<<< HEAD
-//
             $umodel -> tuanduijiang($order_info['total'] ,$order_info['user_id'],$referee_path);
-=======
-////
-//            $umodel -> tuanduijiang($order_info['total'] ,$order_info['user_id']);
->>>>>>> f72735018d83b4d583f71df487140f9d80e28704
+
             $umodel -> saveYeji($order_info['user_id'],$order_info['total']);
             $umodel -> updateRank($order_info['user_id'],$referee_path,$order_info['total']);//更改用户等级
             $umodel -> shengji($referee_path);

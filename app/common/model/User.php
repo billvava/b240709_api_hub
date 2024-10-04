@@ -810,18 +810,38 @@ class User extends Model
     }
 
 
-    public function tuanduijiang($money, $uid)
+    public function tuanduijiang($money, $uid,$referee_path)
     {
         $rank = $this->where(array('id' => $uid))->value('rank');
         $tuiduijiang = C('tuanduijiang');
         $tuiduijiang = explode('|', $tuiduijiang);
-        $total_dot = $money * $tuiduijiang[$rank - 2] ?? 0;
-        $total_dot =  $total_dot / 100;
-        if ($total_dot > 0) {
-            $this->handleUser('lvse_dot', $uid, $total_dot, 1, array('cate' => 10, 'ordernum' => ''));
+
+        if (!$referee_path) {
+            return;
+        }
+        $referee_path = explode(',', $referee_path);
+        $map = [];
+        $map[] = ['id', 'in', $referee_path];
+        $list = Db::name("user")->where($map)->order('id asc')->field('*')->select();
+
+        foreach ($list as $key => $value) {
+            $rank = $value['rank'];
+            $c_rank = $list[$key + 1]['rank'] ?? 0;
+            $bili = 0;
+            if ($rank > $c_rank) {
+                $bili_1 = $tuiduijiang[$rank - 2] ?? 0;
+                $bili_2 = $tuiduijiang[$c_rank - 2] ?? 0;
+                $bili = $bili_1 - $bili_2;
+            }  else {
+                $bili = 0;
+            }
+            $bili = $bili / 100;
+            $total_dot = round($money * $bili, 2);
+            if ($total_dot > 0) {
+                $this->handleUser('lvse_dot', $uid, $total_dot, 1, array('cate' => 10, 'ordernum' => ''));
+            }
         }
 
-        return true;
     }
 
 
