@@ -790,7 +790,6 @@ class User extends Model
 
         $daijinquan_num = $money * $daijinquan;
         $user_lvse_dot = $daijinquan_num * $zhitui / 100;//改为拿代金券的
-        $this -> tuanduijiang($money, $pid);
 //       if($is_pay){
         if ($total_dot > 0 && $user_lvse_dot > 0) {
 
