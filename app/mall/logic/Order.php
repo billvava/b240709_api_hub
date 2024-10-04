@@ -172,7 +172,7 @@ class Order {
         if($type =='huodong'){
             $umodel -> zhituijiang($order_info['total'] ,$order_info['user_id'],$pid);
 //
-            $umodel -> tuanduijiang($order_info['total'] ,$order_info['user_id']);
+            $umodel -> tuanduijiang($order_info['total'] ,$order_info['user_id'],$referee_path);
             $umodel -> saveYeji($order_info['user_id'],$order_info['total']);
             $umodel -> updateRank($order_info['user_id'],$referee_path,$order_info['total']);//更改用户等级
             $umodel -> shengji($referee_path);
