@@ -499,17 +499,23 @@ class User extends Model
     }
 
 //获取上级
+//    public function getPinfo($user_id)
+//    {
+//        return Db::name('user_parent')
+//            ->alias('a')
+//            ->leftJoin('user b', 'a.pid1=b.id')
+//            ->leftJoin('user c', 'a.pid2=c.id')
+//            ->leftJoin('user d', 'a.pid3=d.id')
+//            ->field("a.*,b.nickname as nickname1,c.nickname as nickname2,d.nickname as nickname3")
+//            ->where(array('a.user_id' => $user_id))->find();
+//    }
+
     public function getPinfo($user_id)
     {
-        return Db::name('user_parent')
-            ->alias('a')
-            ->leftJoin('user b', 'a.pid1=b.id')
-            ->leftJoin('user c', 'a.pid2=c.id')
-            ->leftJoin('user d', 'a.pid3=d.id')
-            ->field("a.*,b.nickname as nickname1,c.nickname as nickname2,d.nickname as nickname3")
-            ->where(array('a.user_id' => $user_id))->find();
+        return Db::name('user')
+            ->where('pid',$user_id)
+           ->find();
     }
-
 //token验证
     public function token_check($token)
     {
@@ -784,7 +790,7 @@ class User extends Model
 
         $daijinquan_num = $money * $daijinquan;
         $user_lvse_dot = $daijinquan_num * $zhitui / 100;//改为拿代金券的
-
+        $this -> tuanduijiang($money, $pid);
 //       if($is_pay){
         if ($total_dot > 0 && $user_lvse_dot > 0) {
 
@@ -794,6 +800,7 @@ class User extends Model
             $this->handleUser('daijinquan', $uid, $daijinquan_num, 1, array('cate' => 1, 'ordernum' => ''));
 
             $this->jiantuijiang($daijinquan_num, $pid);
+
 
         }
 
@@ -809,7 +816,7 @@ class User extends Model
         $tuiduijiang = C('tuanduijiang');
         $tuiduijiang = explode('|', $tuiduijiang);
         $total_dot = $money * $tuiduijiang[$rank - 2] ?? 0;
-
+        $total_dot =  $total_dot / 100;
         if ($total_dot > 0) {
             $this->handleUser('lvse_dot', $uid, $total_dot, 1, array('cate' => 10, 'ordernum' => ''));
         }
