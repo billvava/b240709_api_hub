@@ -837,7 +837,7 @@ class User extends Model
             $bili = $bili / 100;
             $total_dot = round($money * $bili, 2);
             if ($total_dot > 0) {
-                $this->handleUser('lvse_dot', $uid, $total_dot, 1, array('cate' => 10, 'ordernum' => ''));
+                $this->handleUser('lvse_dot', $value['id'], $total_dot, 1, array('cate' => 10, 'ordernum' => ''));
             }
         }
 
