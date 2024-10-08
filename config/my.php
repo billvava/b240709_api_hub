@@ -20,12 +20,12 @@ return [
     'login_error_sys_count' => 50, //每天登录连续可错误次数
     'login_error_admin_count' => 5, //单个用户登录连续可错误次数
     'login_auto_day' => 15, //自动登录天数
-    'apiurl' => 'http://api.glxinhu.com:81', //商户接口地址
-    'apitoken' => 'f9bc5737dce3e546a57af65900f97988', //商户密钥
+    'apiurl' => '', //商户接口地址
+    'apitoken' => '', //商户密钥
     'apikey' => 'chenyeyu',
     'res_pwd' => '123456',
    
-    'aliyun_access_key_id' => 'LTAILufOqv1s4LZ1',
+    'aliyun_access_key_id' => '',
     'aliyun_access_key_secret' => '',
     'aliyun_host' => 'http://oss-cn-shenzhen.aliyuncs.com',
     'aliyun_cdn' => 'http://oss-cn-shenzhen.aliyuncs.com',
@@ -48,7 +48,7 @@ return [
     'temp_ewm_path' => './uploads/temp_ewm/',
     
     //小程序公共目录
-    'com_cdn'=>'http://xfchen.xinhu.wang/com/',
+    'com_cdn'=>'',
     
     //支付方式
     'pay_type' => 'wx_js',
@@ -94,15 +94,15 @@ return [
                 'access_key_secret' => '',
                 'endpoint' => 'weimeigj.oss-cn-shenzhen.aliyuncs.com',
                 'bucket_domain' => 'http://weimeigj.oss-cn-shenzhen.aliyuncs.com',
-                'cdn_domain' => 'http://weimei.xinhu.wang',
+                'cdn_domain' => '',
                 'dir'=>'',
 
             ],
             'cos' => [
                 'bucket' => 'xf01-1313130749',
                 'region' => 'ap-guangzhou',
-                'secret_id' => 'AKIDvhFZfXifNtCH9mBMJ8jFZkiS0LTN2Ukl',
-                'secret_key' => 'qTr1xe8OQDn9HDuOi8NTQCqKisnW2LUT',
+                'secret_id' => '',
+                'secret_key' => '',
                 'cdn_domain' => 'http://xf01.cos.xinhu.wang',
                 'dir'=>'suoye/',
             ],
