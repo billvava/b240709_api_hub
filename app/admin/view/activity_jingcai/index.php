@@ -77,7 +77,7 @@
                 </th>
                 <?php } ?>
                 <th>id</th>
-<th>用户ID</th>
+<th>用户</th>
 <th>手机号码</th>
 <th>中奖号码</th>
 <th>倍数</th>
@@ -98,7 +98,7 @@
                 <tr class="layui-form">
                     <?php if($is_del==1){ ?><th style=" width: 100px;"><input  class="sel_id"  type="checkbox" lay-ignore value="<?php echo $v[$pk]; ?>" name="<?php echo $pk; ?>[]"/></th> <?php } ?>
                     <th><?php echo $v['id']; ?></th>
-<th><?php echo $v['user_id']; ?></th>
+<th><?php echo $v['username']; ?></th>
 <th><?php echo $v['tel']; ?></th>
 <th><?php echo $v['winning_numbers']; ?></th>
 <th><?php echo $v['beishu']; ?></th>

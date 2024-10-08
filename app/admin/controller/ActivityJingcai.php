@@ -81,10 +81,13 @@ class ActivityJingcai extends BCOM{
                 ->limit($Page->firstRow , $Page->listRows)
                 ->order($order)
                 ->select()->toArray();
+        $list = Db::name('user') -> column('username','id');
+     
         foreach ($data['list'] as $key => $value){
             $num_json = json_decode($value['num_json'],true) ;
             $num_json_str = implode(',',$num_json);
             $data['list'][$key]['num_json'] = $num_json_str;
+            $data['list'][$key]['username'] = $list[$value['user_id']]??'';
         }
         View::assign('is_add', 1);           
         View::assign('is_xls', 1);   

@@ -129,11 +129,11 @@ class User
                 'url' => '/pages/baoming/transfer',
                 'icon' => "user-center/icon-nav-1.png",
             ],
-            [
-                'name' => '进货券转账',
-                'url' => '/pages/baoming/jinhuoquantransfer',
-                'icon' => "user-center/icon-nav-1.png",
-            ],
+//            [
+//                'name' => '进货券转账',
+//                'url' => '/pages/baoming/jinhuoquantransfer',
+//                'icon' => "user-center/icon-nav-1.png",
+//            ],
             [
                 'name' => '进货商城专区',
                 //'url' =>'/pages/user/cashout/cashout',
