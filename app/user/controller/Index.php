@@ -149,7 +149,7 @@ class Index extends Common {
         $map = [];
         $map[] = ['id', 'in', '(0' . $referee_path . '0)'];
 
-        $field = "id,nickname,rank";
+        $field = "id,nickname,rank,username";
         $order = 'id desc';
         $list =  $this->model-> where($map) -> field($field) -> orderRaw($order) -> select() -> toArray();
         $user_level = get_user_level();
@@ -194,7 +194,7 @@ class Index extends Common {
         $pid = $in['id'] ? $in['id'] : $in['user_id'];
         $data = $this->model
                         ->where(array('pid' => $pid))
-                        ->field('id,nickname,headimgurl')
+                        ->field('id,nickname,headimgurl,username')
                         ->cache(3600)
                         ->select()->toArray();
         $json = "[";
@@ -205,7 +205,7 @@ class Index extends Common {
             $v['nickname'] = $this->match_chinese($v['nickname']);
             $rank = '';
             $pstr = '';
-            $json .= "{ id:'{$v['id']}',name:'【{$v['id']}】{$v['nickname']}{$rank}{$pstr}',isParent:true},";
+            $json .= "{ id:'{$v['id']}',name:'【{$v['id']}】{$v['username']}{$rank}{$pstr}',isParent:true},";
         }
         $json = trim($json, ',') . ']';
         echo $json;

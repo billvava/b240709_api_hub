@@ -82,7 +82,7 @@ class ActivityJingcai extends BCOM{
                 ->order($order)
                 ->select()->toArray();
         $list = Db::name('user') -> column('username','id');
-     
+
         foreach ($data['list'] as $key => $value){
             $num_json = json_decode($value['num_json'],true) ;
             $num_json_str = implode(',',$num_json);

@@ -74,7 +74,7 @@
                     <tr>
                         <td>微信：{$data['uinfo']['weixin']?$data['uinfo']['weixin']:'无'}</td>
                         <td>姓名：{$data['uinfo']['realname']?$data['uinfo']['realname']:'无'}</td>
-                        <td>生日：{$data['uinfo']['birthday']?$data['uinfo']['birthday']:'无'}</td>
+                        <td>用户名：{$data['uinfo']['username']?$data['uinfo']['username']:'无'}</td>
                     </tr>
                     
                   

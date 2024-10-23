@@ -5,6 +5,7 @@
             <thead>
             <tr>
                 <th>用户编号</th>
+                <th>用户名</th>
                 <th>级别</th>
                 <th>昵称</th>
                 <th>层级</th>
@@ -15,6 +16,7 @@
             {foreach name="list"  key="k" item="v"}
             <tr>
                 <td><?php echo $v['id']; ?></td>
+                <td><?php echo $v['username']; ?></td>
                 <td><?php echo $v['rank_name_text']; ?></td>
                 <td><?php echo $v['nickname'.$i]; ?></td>
                 <td>第<?php echo $k + 1; ?>级</td>
