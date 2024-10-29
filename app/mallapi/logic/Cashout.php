@@ -130,17 +130,17 @@ class Cashout
 
             $bankInfo = $this->channel_model->getInfo($this->in['bank_id'], false);
 
-             if (!$this->in['bank_id']) {
-                return array('status' => 0, 'info' => "请选择银行卡");
-            }
-
-           
-            if (!$bankInfo) {
-                return array('status' => 0, 'info' => "请选择银行卡!");
-            }
-            if ($bankInfo['user_id'] != $this->uinfo['id']) {
-                return array('status' => 0, 'info' => "请选择银行卡!!");
-            }
+//             if (!$this->in['bank_id']) {
+//                return array('status' => 0, 'info' => "请选择银行卡");
+//            }
+//
+//
+//            if (!$bankInfo) {
+//                return array('status' => 0, 'info' => "请选择银行卡!");
+//            }
+//            if ($bankInfo['user_id'] != $this->uinfo['id']) {
+//                return array('status' => 0, 'info' => "请选择银行卡!!");
+//            }
 
             // dump($min_bro_money);exit;
             if ($money < $min_bro_money && $bankInfo['cate'] == 'bank') {
